@@ -1,0 +1,79 @@
+<template>
+  <div class="bg-white mx-1 px-4 h-full">
+    <div class="font-bold text-lg pt-6 pb-2">
+      Question {{ activeQuestion + 1 }}
+    </div>
+    <div class="pl-10">
+      {{ question.description }}
+    </div>
+    <div class="text-xs">
+      <div class="flex-col flex">
+        <i class="fas fa-question-circle"></i>
+        <div>Solution</div>
+      </div>
+    </div>
+    <div class="pl-10">
+      <form>
+        <div
+          v-for="(solution, index) in question.alternatives"
+          :key="index"
+          class="flex pb-4 items-center"
+        >
+          <!-- :id="solution.id" -->
+          <input
+            class="mr-2"
+            type="radio"
+            :value="solution.text"
+            v-model="picked"
+          />
+          <!-- :checked="userAnswer" -->
+          <label :for="solution.id"
+            ><span class="font-bold pr-2">{{ options[index] }}.</span>
+            <span class="font-semibold">{{ solution.text }}</span></label
+          >
+        </div>
+        <!-- <input type="submit" value="submit" class="btn btn-danger" /> -->
+        <!-- <div class="text-info py-5">You chose {{ userAnswer }}</div> -->
+      </form>
+      <br />
+    </div>
+  </div>
+</template>
+
+<script>
+/* eslint-disable */
+export default {
+  name: "question",
+  props: ["question", "activeQuestion", "userAnswer"],
+
+  data() {
+    return {
+      picked: "",
+      options: ["A", "B", "C", "D", "E"]
+    };
+  },
+  watch: {
+    picked(newValue, oldValue) {
+      this.$emit("answer-choice", {
+        userAnswer: newValue
+      });
+    },
+    question(newValue, oldValue) {
+      if (this.userAnswer) {
+        this.picked = this.userAnswer;
+        return;
+      }
+      this.picked = "";
+    }
+    // userAnswer(newValue, oldValue){
+
+    // }
+  },
+  methods: {
+    // handleSubmit(e) {
+    // }
+  }
+};
+</script>
+
+<style></style>
