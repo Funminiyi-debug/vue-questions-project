@@ -6,18 +6,7 @@
     <!-- @submit="handleSubmit" -->
     <form class="container" @submit="handleSubmit" enctype="application/json">
       <br />
-      <div class="form-control-group row">
-        <label for="name" class="col-2 form-control-label">Name:</label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          class="form-control col-10"
-          placeholder="Insert your name"
-          v-model="name"
-          required
-        />
-      </div>
+
       <br />
       <div class="form-control-group row">
         <label for="email" class="form-control-label col-2">Email:</label>
@@ -58,32 +47,27 @@
             v-for="(subject, index) of subjects"
             :value="subject"
             v-bind:key="index"
-            >{{ subject.name }}</option
+          >
+            {{ subject.name }}</option
           >
         </select>
       </div>
       <br />
-      <input
-        type="submit"
-        value="Register and Start Quiz"
-        class="btn btn-dark"
-      />
+      <input type="submit" value="Continue" class="btn btn-dark" />
     </form>
-    <p>or <router-link to="/login">Login</router-link></p>
   </div>
 </template>
 
 <script>
 import { baseUrl } from "../api/routes";
 export default {
-  name: "intro-screen",
+  name: "login-screen",
   async created() {
     await this.fetchSubjects();
   },
   data() {
     return {
       subjects: [],
-      name: "",
       email: "",
       subject: "",
       password: "",
@@ -103,7 +87,7 @@ export default {
         console.log(error);
       }
     },
-    // handle error functiono
+    // handle error function
     handleError(error) {
       if (error.status == 409) {
         alert("Oops! User already exist");
@@ -113,6 +97,11 @@ export default {
         alert("Server Error, please try again");
         return;
       }
+
+      if (error.status == 401) {
+        alert("Password or username incorrect");
+      }
+
       if (error.status == 400) {
         alert("Ensure all fields are filled");
         return;
@@ -126,13 +115,13 @@ export default {
     async handleSubmit(e) {
       e.preventDefault();
       const newUser = {
-        name: this.name,
         email: this.email,
         password: this.password
       };
       const success = await this.addUser(newUser);
 
       if (success) {
+        this.$emit("user", this.user);
         return this.$router.push(`Home/${this.subject._id}`);
       }
       return;
@@ -142,7 +131,7 @@ export default {
       let success = false;
       console.log("sending user");
       try {
-        let res = await fetch(`${baseUrl}/register`, {
+        let res = await fetch(`${baseUrl}/login`, {
           method: "post",
           body: JSON.stringify(user),
           headers: {
@@ -152,7 +141,7 @@ export default {
         this.handleError(res);
         res = await res.json();
         success = res.success;
-        this.user = res.message;
+        this.user = res.user;
       } catch (error) {}
       return success;
     }

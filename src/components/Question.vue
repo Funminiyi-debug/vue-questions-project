@@ -33,7 +33,10 @@
           >
         </div>
         <!-- <input type="submit" value="submit" class="btn btn-danger" /> -->
-        <!-- <div class="text-info py-5">You chose {{ userAnswer }}</div> -->
+        <div class="text-info py-5" v-if="inReview == true">
+          You chose {{ userAnswer }} <br />
+          Correct Answer {{ correctAnswer }}
+        </div>
       </form>
       <br />
     </div>
@@ -44,12 +47,15 @@
 /* eslint-disable */
 export default {
   name: "question",
-  props: ["question", "activeQuestion", "userAnswer"],
+  props: ["question", "activeQuestion", "userAnswer", "inReview"],
 
   data() {
     return {
       picked: "",
-      options: ["A", "B", "C", "D", "E"]
+      options: ["A", "B", "C", "D", "E"],
+      correctAnswer: this.question.alternatives.find(
+        value => value.isCorrect == true
+      ).text
     };
   },
   watch: {
@@ -65,9 +71,6 @@ export default {
       }
       this.picked = "";
     }
-    // userAnswer(newValue, oldValue){
-
-    // }
   },
   methods: {
     // handleSubmit(e) {

@@ -1,7 +1,7 @@
 <template>
   <div class="progress">
     <div
-      class="progress-bar bg-danger"
+      class="progress-bar bg-dark"
       role="progressbar"
       v-bind:style="{ width: percentage + '%' }"
       aria-valuenow="25"
