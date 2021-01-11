@@ -1,60 +1,65 @@
 <template
   ><div>
-    <div class="about"></div>
-    <center>Welcome to the Examination. Goodluck!</center>
-    <!-- <div v-bind:class="{"error":this.error}">An error occured... try again</div> -->
-    <!-- @submit="handleSubmit" -->
-    <form class="container" @submit="handleSubmit" enctype="application/json">
-      <br />
+    <div v-if="subjects.length > 0">
+      <div class="about"></div>
+      <center>Welcome to the Examination. Goodluck!</center>
+      <!-- <div v-bind:class="{"error":this.error}">An error occured... try again</div> -->
+      <!-- @submit="handleSubmit" -->
+      <form class="container" @submit="handleSubmit" enctype="application/json">
+        <br />
 
-      <br />
-      <div class="form-control-group row">
-        <label for="email" class="form-control-label col-2">Email:</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          class="form-control col-10"
-          placeholder="insert your email"
-          v-model="email"
-          required
-        />
-      </div>
-      <br />
-      <div class="form-control-group row">
-        <label for="email" class="form-control-label col-2">Password:</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          class="form-control col-10"
-          placeholder="insert your password"
-          v-model="password"
-          required
-        />
-      </div>
-      <br />
-      <div class="form-control-group">
-        <label for="subjects" class="px-5">Select Your Subject</label>
-        <select
-          name="Subjects"
-          id="subjects"
-          class="option"
-          v-model="subject"
-          required
-        >
-          <option
-            v-for="(subject, index) of subjects"
-            :value="subject"
-            v-bind:key="index"
+        <br />
+        <div class="form-control-group row">
+          <label for="email" class="form-control-label col-2">Email:</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            class="form-control col-10"
+            placeholder="insert your email"
+            v-model="email"
+            required
+          />
+        </div>
+        <br />
+        <div class="form-control-group row">
+          <label for="email" class="form-control-label col-2">Password:</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="form-control col-10"
+            placeholder="insert your password"
+            v-model="password"
+            required
+          />
+        </div>
+        <br />
+        <div class="form-control-group">
+          <label for="subjects" class="px-5">Select Your Subject</label>
+          <select
+            name="Subjects"
+            id="subjects"
+            class="option"
+            v-model="subject"
+            required
           >
-            {{ subject.name }}</option
-          >
-        </select>
-      </div>
-      <br />
-      <input type="submit" value="Continue" class="btn btn-dark" />
-    </form>
+            <!-- <option selected>Open this select menu</option> -->
+
+            <option
+              v-for="(subject, index) of subjects"
+              :value="subject"
+              v-bind:key="index"
+            >
+              {{ subject.name }}</option
+            >
+          </select>
+        </div>
+        <br />
+        <input type="submit" value="Continue" class="btn btn-dark bg-red-1" />
+      </form>
+    </div>
+    <div v-if="subjects.length == 0">Loading...</div>
   </div>
 </template>
 
@@ -129,7 +134,6 @@ export default {
     // add user function
     async addUser(user) {
       let success = false;
-      console.log("sending user");
       try {
         let res = await fetch(`${baseUrl}/login`, {
           method: "post",

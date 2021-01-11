@@ -4,6 +4,9 @@ import Home from "../views/Quiz.vue";
 import End from "../views/End.vue";
 import Login from "../views/Login.vue";
 import Reviewed from "../views/Reviewed.vue";
+import AdminDashboard from "../views/AdminDashBoard.vue";
+import AddQuestion from "../views/AddQuestion.vue";
+import CheckQuestions from "../views/CheckQuestions.vue";
 
 Vue.use(VueRouter);
 
@@ -24,6 +27,22 @@ const routes = [
     component: Login
   },
   { path: "/review/:subjectid", name: "Review", component: Reviewed },
+  {
+    path: "/admin",
+    name: "Admin",
+    component: AdminDashboard
+  },
+  { path: "/admin/add-question", name: "add-question", component: AddQuestion },
+  {
+    path: "/admin/student/:id",
+    name: "student-result",
+    component: AddQuestion
+  },
+  {
+    path: "/admin/check-questions",
+    name: "check-questions",
+    component: CheckQuestions
+  },
   {
     path: "/",
     name: "About",

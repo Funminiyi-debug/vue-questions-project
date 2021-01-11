@@ -1,75 +1,79 @@
 <template
   ><div>
-    <div class="about"></div>
-    <center>Welcome to the Examination. Goodluck!</center>
-    <!-- <div v-bind:class="{"error":this.error}">An error occured... try again</div> -->
-    <!-- @submit="handleSubmit" -->
-    <form class="container" @submit="handleSubmit" enctype="application/json">
-      <br />
-      <div class="form-control-group row">
-        <label for="name" class="col-2 form-control-label">Name:</label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          class="form-control col-10"
-          placeholder="Insert your name"
-          v-model="name"
-          required
-        />
-      </div>
-      <br />
-      <div class="form-control-group row">
-        <label for="email" class="form-control-label col-2">Email:</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          class="form-control col-10"
-          placeholder="insert your email"
-          v-model="email"
-          required
-        />
-      </div>
-      <br />
-      <div class="form-control-group row">
-        <label for="email" class="form-control-label col-2">Password:</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          class="form-control col-10"
-          placeholder="insert your password"
-          v-model="password"
-          required
-        />
-      </div>
-      <br />
-      <div class="form-control-group">
-        <label for="subjects" class="px-5">Select Your Subject</label>
-        <select
-          name="Subjects"
-          id="subjects"
-          class="option"
-          v-model="subject"
-          required
-        >
-          <option
-            v-for="(subject, index) of subjects"
-            :value="subject"
-            v-bind:key="index"
-            >{{ subject.name }}</option
+    <div v-if="subjects.length > 0">
+      <div class="about"></div>
+      <center>Welcome to the Examination. Goodluck!</center>
+      <!-- <div v-bind:class="{"error":this.error}">An error occured... try again</div> -->
+      <!-- @submit="handleSubmit" -->
+      <form class="container" @submit="handleSubmit" enctype="application/json">
+        <br />
+        <div class="form-control-group row">
+          <label for="name" class="col-2 form-control-label">Name:</label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            class="form-control col-10"
+            placeholder="Insert your name"
+            v-model="name"
+            required
+          />
+        </div>
+        <br />
+        <div class="form-control-group row">
+          <label for="email" class="form-control-label col-2">Email:</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            class="form-control col-10"
+            placeholder="insert your email"
+            v-model="email"
+            required
+          />
+        </div>
+        <br />
+        <div class="form-control-group row">
+          <label for="email" class="form-control-label col-2">Password:</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="form-control col-10"
+            placeholder="insert your password"
+            v-model="password"
+            required
+          />
+        </div>
+        <br />
+        <div class="form-control-group">
+          <label for="subjects" class="px-5">Select Your Subject</label>
+          <select
+            name="Subjects"
+            id="subjects"
+            class="option"
+            v-model="subject"
+            required
           >
-        </select>
-      </div>
-      <br />
-      <input
-        type="submit"
-        value="Register and Start Quiz"
-        class="btn btn-dark"
-      />
-    </form>
-    <p>or <router-link to="/login">Login</router-link></p>
+            <!-- <option selected>Open this select menu</option> -->
+            <option
+              v-for="(subject, index) of subjects"
+              :value="subject"
+              v-bind:key="index"
+              >{{ subject.name }}</option
+            >
+          </select>
+        </div>
+        <br />
+        <input
+          type="submit"
+          value="Register and Start Quiz"
+          class="btn btn-dark bg-red-1"
+        />
+      </form>
+      <p>or <router-link to="/login">Login</router-link></p>
+    </div>
+    <div v-if="subjects.length == 0">Loading...</div>
   </div>
 </template>
 

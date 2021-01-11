@@ -37,7 +37,6 @@ export default {
       this.user = userSent;
     },
     addResults(resultGotten) {
-      console.log("results Gotten", resultGotten);
       this.$store.commit("addResults", resultGotten);
       this.results = resultGotten;
     }

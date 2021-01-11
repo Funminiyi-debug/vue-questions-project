@@ -21,6 +21,7 @@
         >
           <!-- :id="solution.id" -->
           <input
+            v-bind:disabled="inReview == true"
             class="mr-2"
             type="radio"
             :value="solution.text"

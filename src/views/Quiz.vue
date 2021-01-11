@@ -30,11 +30,15 @@
       >
         <div class="flex">
           <div class="cursor-pointer">
-            <span class="underline">H</span>ighlight
+            <span v-on:click="highlightText"
+              ><span class="underline">H</span>ighlight</span
+            >
           </div>
           <div class="pl-8 flex items-center">
             <i class="fas fa-pen"></i>
-            <span class="pl-4 underline">Strikethrough</span>
+            <span v-on:click="strikethroughText">
+              <span class="pl-4 underline">Strikethrough</span></span
+            >
           </div>
         </div>
         <div class="flex justify-end items-center">
@@ -55,6 +59,8 @@
           v-bind:activeQuestion="activeQuestion"
           v-on:prev_passage="prevPassage"
           v-on:next_passage="nextPassage"
+          v-bind:highlight="highlight"
+          v-bind:strikethrough="strikethrough"
         ></passage>
         <div>
           <!-- v-bind:userAnswer="currentUserAnswer" -->
@@ -64,6 +70,7 @@
             v-on:answer-choice="selectAnswer"
             v-bind:userAnswer="currentUserAnswer"
             v-bind:inReview="inReview"
+            v-bind:lastQuestion="lastQuestion"
           ></question>
         </div>
       </div>
@@ -92,7 +99,12 @@
           class="cursor-pointer pl-4 border-l hover:shadow-lg hover:text-teal-1"
           @click="next"
         >
-          <span class="underline">N</span>ext
+          <span v-if="lastQuestion == true"
+            ><span class="underline">S</span>ubmit</span
+          >
+          <span v-if="lastQuestion == false"
+            ><span class="underline">N</span>ext</span
+          >
           <i class="fas fa-arrow-right"></i>
         </div>
       </div>
@@ -144,15 +156,26 @@ export default {
   },
   watch: {
     $route(to, from) {
-      console.log(to.params.subjectid);
       this.fetchPassages(to.params.subjectid);
       // this.getHistory();
+    },
+    activeQuestion(to, from) {
+      if (
+        this.activePassage + 2 == this.passages.length &&
+        to + 1 == this.currentPassage.questions.length
+      ) {
+        this.lastQuestion = true;
+      } else {
+        this.lastQuestion = false;
+      }
     }
   },
   props: ["user"],
   data() {
     return {
       inReview: false,
+      strikethrough: false,
+      highlight: false,
       userVisitedQuestions: {
         username: this.user.name,
         email: this.user.email,
@@ -160,6 +183,7 @@ export default {
         questionsAnswered: [],
         score: 0
       },
+      lastQuestion: false,
       get currentQuestion() {
         return this.passages[this.activePassage].questions[this.activeQuestion];
       },
@@ -190,7 +214,6 @@ export default {
       );
 
       if (!history) {
-        console.log("history", history);
         this.userVisitedQuestions = {
           ...history,
           ...this.userVisitedQuestions
@@ -353,8 +376,6 @@ export default {
         JSON.stringify(this.userVisitedQuestions)
       );
 
-      console.log("saved to local storage", this.userVisitedQuestions);
-
       const request = {
         name: this.userVisitedQuestions.username,
         email: this.userVisitedQuestions.email,
@@ -366,12 +387,28 @@ export default {
         }
       };
 
-      console.log("emitted results also saved to database", request);
       this.$emit("addResults", request.subject);
 
       const res = axios.post(`${baseUrl}/users/add-subject-to-user`, {
         ...request
       });
+    },
+
+    // strikethroughs and highlights
+    highlightText() {
+      // this.highlight = !this.highlight;
+      if (this.highlight == false) {
+        this.highlight = true;
+      } else {
+        this.highlight = false;
+      }
+    },
+    strikethroughText() {
+      if (this.strikethrough == false) {
+        this.strikethrough = true;
+      } else {
+        this.strikethrough = false;
+      }
     }
   }
 };
@@ -385,6 +422,9 @@ export default {
   right: 0;
   left: 0;
 } */
+.underline {
+  cursor: pointer;
+}
 </style>
 
 <style>

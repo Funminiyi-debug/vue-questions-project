@@ -118,6 +118,10 @@ export default {
       localStorage.getItem(`userData_${this.user.name}`)
     );
 
+    if (!history) {
+      return this.$router.push("/login");
+    }
+
     this.userVisitedQuestions = history;
   },
   mounted() {

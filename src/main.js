@@ -8,20 +8,36 @@ import router from "./router";
 import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import * as Cookies from "js-cookie";
-
+import axios from "axios";
+import { baseUrl } from "./api/routes";
+const getDefaultState = () => {
+  return {
+    user: "",
+    results: ""
+  };
+};
 Vue.use(Vuex);
 Vue.config.productionTip = false;
 
 const store = new Vuex.Store({
-  state: {
-    user: "",
-    results: ""
-  },
+  state: getDefaultState(),
   getters: {
     user: state => state.user,
     results: state => state.results
   },
+  actions: {
+    async logout() {
+      const res = await axios.post(`${baseUrl}/logout`);
+      localStorage.clear();
+      this.commit("resetState");
+      alert("log out successful");
+      this.$route.push("/login");
+    }
+  },
   mutations: {
+    resetState(state) {
+      Object.assign(state, getDefaultState());
+    },
     addUser(state, payload) {
       state.user = payload;
     },

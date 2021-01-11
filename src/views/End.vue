@@ -5,7 +5,7 @@
     Score:
     <div class="btn btn-light btn-lg my-5">{{ results.score }}%</div>
     <br /><br />
-    <router-link v-bind:to="getUrl" class="btn btn-success">Review</router-link>
+    <router-link v-bind:to="getUrl" class="btn bg-red-1">Review</router-link>
     <div class="btn" @click="logout">Logout</div>
   </div>
 </template>
@@ -40,8 +40,7 @@ export default {
   },
   methods: {
     async logout() {
-      const res = await axios.post(`${baseUrl}/logout`);
-      alert("log out successful");
+      this.$store.dispatch("logout");
     }
   }
 };
