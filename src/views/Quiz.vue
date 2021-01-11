@@ -109,6 +109,7 @@ import Question from "../components/Question.vue";
 import Progressbar from "../components/Progressbar.vue";
 import { baseUrl } from "../api/routes";
 import allPassages from "../mock/data";
+import axios from "axios";
 
 export default {
   components: {
@@ -145,7 +146,7 @@ export default {
     $route(to, from) {
       console.log(to.params.subjectid);
       this.fetchPassages(to.params.subjectid);
-      this.getHistory();
+      // this.getHistory();
     }
   },
   props: ["user"],
@@ -156,7 +157,8 @@ export default {
         username: this.user.name,
         email: this.user.email,
         questionsAttempted: [],
-        questionsAnswered: []
+        questionsAnswered: [],
+        score: 0
       },
       get currentQuestion() {
         return this.passages[this.activePassage].questions[this.activeQuestion];
@@ -197,15 +199,11 @@ export default {
     },
     async fetchPassages(id) {
       try {
-        let res = await fetch(`${baseUrl}/passages/get-by-subject/${id}`, {
-          method: "get",
-          credentials: "same-origin"
-        });
+        let res = await axios.get(`${baseUrl}/passages/get-by-subject/${id}`);
 
-        res = await res.json();
+        // res = await res.json();
         this.handleError(res);
-
-        this.passages = res.passages;
+        this.passages = res.data.passages;
       } catch (error) {
         console.error(error);
       }
@@ -355,6 +353,8 @@ export default {
         JSON.stringify(this.userVisitedQuestions)
       );
 
+      console.log("saved to local storage", this.userVisitedQuestions);
+
       const request = {
         name: this.userVisitedQuestions.username,
         email: this.userVisitedQuestions.email,
@@ -366,20 +366,12 @@ export default {
         }
       };
 
+      console.log("emitted results also saved to database", request);
       this.$emit("addResults", request.subject);
 
-      fetch(`${baseUrl}/users/add-subject-to-user`, {
-        method: "post",
-        body: JSON.stringify(request),
-        credentials: "same-origin",
-        headers: { "Content-Type": "application/json" }
-      })
-        .then(res => {
-          this.handleError(res);
-          return res.json();
-        })
-        .then(res => {})
-        .catch(err => console.log(err));
+      const res = axios.post(`${baseUrl}/users/add-subject-to-user`, {
+        ...request
+      });
     }
   }
 };
@@ -387,12 +379,12 @@ export default {
 
 <style src="../assets/css/tailwind.css"></style>
 <style scoped>
-.bottom-bar {
+/* .bottom-bar {
   position: absolute;
   bottom: 0;
   right: 0;
   left: 0;
-}
+} */
 </style>
 
 <style>

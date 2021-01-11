@@ -6,10 +6,13 @@
     <div class="btn btn-light btn-lg my-5">{{ results.score }}%</div>
     <br /><br />
     <router-link v-bind:to="getUrl" class="btn btn-success">Review</router-link>
+    <div class="btn" @click="logout">Logout</div>
   </div>
 </template>
 
 <script>
+import { baseUrl } from "../api/routes";
+import axios from "axios";
 export default {
   name: "End",
   props: ["results"],
@@ -34,6 +37,12 @@ export default {
       username: "",
       subjectid: ""
     };
+  },
+  methods: {
+    async logout() {
+      const res = await axios.post(`${baseUrl}/logout`);
+      alert("log out successful");
+    }
   }
 };
 </script>

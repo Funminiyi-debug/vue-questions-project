@@ -3,7 +3,7 @@
     <router-view
       v-on:user="getUser"
       v-bind:user="user"
-      v-on:results="addResults"
+      v-on:addResults="addResults"
       v-bind:results="results"
     />
   </div>
@@ -18,9 +18,17 @@ export default {
       results: ""
     };
   },
-  created() {
-    this.user = this.$store.getters.user;
-    this.results = this.$store.getters.results;
+  mounted() {
+    this.$nextTick(() => {
+      this.user = this.$store.getters.user;
+      this.results = this.$store.getters.results;
+    });
+  },
+
+  watch: {
+    $store(to, from) {
+      console.log("change in results store", to.getters.results);
+    }
   },
 
   methods: {
@@ -29,6 +37,7 @@ export default {
       this.user = userSent;
     },
     addResults(resultGotten) {
+      console.log("results Gotten", resultGotten);
       this.$store.commit("addResults", resultGotten);
       this.results = resultGotten;
     }

@@ -1,3 +1,3 @@
-const baseUrl = "http://localhost:2000/api";
+const baseUrl = "https://questions-bank-app.herokuapp.com/api";
 
 export { baseUrl };
