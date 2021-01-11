@@ -13,7 +13,8 @@ import { baseUrl } from "./api/routes";
 const getDefaultState = () => {
   return {
     user: "",
-    results: ""
+    results: "",
+    allUsers: []
   };
 };
 Vue.use(Vuex);
@@ -23,7 +24,8 @@ const store = new Vuex.Store({
   state: getDefaultState(),
   getters: {
     user: state => state.user,
-    results: state => state.results
+    results: state => state.results,
+    allUsers: state => state.allUsers
   },
   actions: {
     async logout() {
@@ -43,6 +45,9 @@ const store = new Vuex.Store({
     },
     addResults(state, payload) {
       state.results = payload;
+    },
+    getAllUsers(state, payload) {
+      state.allUsers = [...payload];
     }
   },
   plugins: [

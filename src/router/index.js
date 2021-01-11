@@ -7,6 +7,7 @@ import Reviewed from "../views/Reviewed.vue";
 import AdminDashboard from "../views/AdminDashBoard.vue";
 import AddQuestion from "../views/AddQuestion.vue";
 import CheckQuestions from "../views/CheckQuestions.vue";
+import StudentResult from "../views/StudentResult.vue";
 
 Vue.use(VueRouter);
 
@@ -32,12 +33,12 @@ const routes = [
     name: "Admin",
     component: AdminDashboard
   },
-  { path: "/admin/add-question", name: "add-question", component: AddQuestion },
   {
     path: "/admin/student/:id",
     name: "student-result",
-    component: AddQuestion
+    component: StudentResult
   },
+  { path: "/admin/add-question", name: "add-question", component: AddQuestion },
   {
     path: "/admin/check-questions",
     name: "check-questions",

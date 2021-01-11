@@ -367,7 +367,7 @@ export default {
         (score / this.userVisitedQuestions.questionsAttempted.length) * 100
       );
     },
-    saveData() {
+    async saveData() {
       this.userVisitedQuestions.timeTaken = this.counter;
       this.userVisitedQuestions.score = this.getScore();
       // save to local storage
@@ -389,7 +389,7 @@ export default {
 
       this.$emit("addResults", request.subject);
 
-      const res = axios.post(`${baseUrl}/users/add-subject-to-user`, {
+      const res = await axios.post(`${baseUrl}/users/add-subject-to-user`, {
         ...request
       });
     },
