@@ -11,6 +11,16 @@
         {{ subject.name }}
       </li>
     </ul>
+
+    <div class="form-group">
+      <input
+        type="text"
+        name="subject"
+        class="form-control"
+        v-model="subject"
+      />
+    </div>
+    <button class="btn btn-danger" @click="addSubject">Add Subject</button>
   </div>
 </template>
 
@@ -21,7 +31,8 @@ export default {
   name: "check-questions",
   data() {
     return {
-      subjects: []
+      subjects: [],
+      subject: ""
     };
   },
   mounted() {
@@ -33,6 +44,18 @@ export default {
         const res = await axios.get(`${baseUrl}/subjects`);
         this.subjects = [...res.data.subjects];
       } catch (error) {
+        console.log(error);
+      }
+    },
+    async addSubject() {
+      try {
+        const res = await axios.post(`${baseUrl}/subjects`, {
+          name: this.subject
+        });
+        this.fetchSubjects();
+        this.subject = "";
+      } catch (error) {
+        alert("Server error");
         console.log(error);
       }
     }
