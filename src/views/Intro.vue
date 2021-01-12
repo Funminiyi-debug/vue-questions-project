@@ -71,6 +71,7 @@
           class="btn btn-dark bg-red-1"
         />
       </form>
+      <br />
       <p>or <router-link to="/login">Login</router-link></p>
     </div>
     <div v-if="subjects.length == 0">Loading...</div>
@@ -79,6 +80,7 @@
 
 <script>
 import { baseUrl } from "../api/routes";
+import axios from "axios";
 export default {
   name: "intro-screen",
   async created() {
@@ -146,18 +148,15 @@ export default {
       let success = false;
       console.log("sending user");
       try {
-        let res = await fetch(`${baseUrl}/register`, {
-          method: "post",
-          body: JSON.stringify(user),
-          headers: {
-            "Content-Type": "application/json"
-          }
+        let res = await axios.post(`${baseUrl}/register`, {
+          ...user
         });
         this.handleError(res);
-        res = await res.json();
-        success = res.success;
-        this.user = res.message;
-      } catch (error) {}
+        success = res.data.success;
+        this.user = res.data.user;
+      } catch (error) {
+        console.log(error);
+      }
       return success;
     }
   }
