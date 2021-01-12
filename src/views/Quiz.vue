@@ -179,7 +179,7 @@ export default {
     },
     activeQuestion(to, from) {
       if (
-        this.activePassage + 2 == this.passages.length &&
+        this.activePassage + 1 == this.passages.length &&
         to + 1 == this.currentPassage.questions.length
       ) {
         this.lastQuestion = true;
