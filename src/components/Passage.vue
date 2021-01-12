@@ -14,15 +14,15 @@
         Next Passage
       </button>
     </div>
-    <div class="px-4">
-      <div
-        class="font-bold text-lg pb-2"
-        v-bind:strikethrough="strikethrough"
-        v-bind:class="{
-          highlight: highlight == true,
-          strikethrough: strikethrough == true
-        }"
-      >
+    <div
+      class="px-4"
+      v-bind:strikethrough="strikethrough"
+      v-bind:class="{
+        highlight: highlight == true,
+        strikethrough: strikethrough == true
+      }"
+    >
+      <div class="font-bold text-lg pb-2">
         Passage {{ activePassage + 1 }} (Questions {{ activeQuestion + 1 }}-{{
           passage.questions.length
         }})
@@ -41,44 +41,24 @@
 </template>
 
 <script>
-import rangy from "rangy";
+// import rangy from "rangy";
+// import "../rangy/rangy-core";
+// import "../rangy/rangy-cssclassapplier";
 import "core-js/features/array/includes";
 import "core-js/features/object/assign"; /* eslint-disable */
+// import * as rangyClassApplier from "rangy-classapplier";
 export default {
   mounted() {
     this.$nextTick(() => {
-      // rangy.init();
-      // console.log(rangy);
-      // this.highlightToggler = rangy.createCssClassApplier(
-      //   "highlight",
-      //   this.highlight
-      // );
-      // // this.strikethroughToggler = rangy.createCssClassApplier(
-      //   "strikethrough",
-      //   this.strikethrough
-      // );
-      // $(function() {
-      //   $(document).mouseup(function() {
-      //     cssApplier.toggleSelection();
-      //   });
-      // });
+      this.selection = window.getSelection();
     });
   },
   watch: {
-    passage(to, from) {
-      // this.highlightToggler = rangy.createCssClassApplier("highlight", true);
-      // // this.strikethroughToggler = rangy.createCssClassApplier(
-      // //   "strikethrough",
-      // //   true
-      // // );
-      // console.log("this is the toggler", this.highlightToggler);
-      // $(function() {
-      //   $(document).mouseup(function() {
-      //     this.highlightToggler.toggleSelection();
-      //   });
-      // });
+    selection(to, from) {
+      console.log(to);
     }
   },
+
   props: [
     "passage",
     "activePassage",
@@ -89,7 +69,8 @@ export default {
   data() {
     return {
       highlightToggler: "",
-      strikethroughToggler: ""
+      strikethroughToggler: "",
+      selection: ""
     };
   },
   methods: {
@@ -104,11 +85,6 @@ export default {
 </script>
 
 <style scoped>
-/* .highlight {
-  color: red;
-  background: yellow;
-} */
-
 .highlight {
   color: red;
   background: yellow;
@@ -118,7 +94,13 @@ export default {
   text-decoration: line-through;
 }
 
-/* .strikethrough::-moz-selection {
-  text-decoration: line-through;
-} */
+::-moz-selection {
+  color: red;
+  background: yellow;
+}
+
+::selection {
+  color: red;
+  background: yellow;
+}
 </style>
