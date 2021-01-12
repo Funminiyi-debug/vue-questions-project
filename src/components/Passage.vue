@@ -55,7 +55,7 @@ export default {
   },
   watch: {
     selection(to, from) {
-      console.log(to);
+      // console.log(to);
     }
   },
 

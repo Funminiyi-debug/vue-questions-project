@@ -47,6 +47,7 @@
         </div>
       </div>
       <progressbar v-bind:percentage="percentage" />
+
       <div class="bg-teal-1 h-5 lg:block hidden">
         <div class="grid grid-cols-2">
           <div></div>
@@ -64,6 +65,17 @@
         ></passage>
         <div>
           <!-- v-bind:userAnswer="currentUserAnswer" -->
+          <!-- ========================== navigation bar -->
+          <navigation
+            v-bind:currentQuestion="currentQuestion"
+            v-bind:currentPassage="currentPassage"
+            v-bind:passages="passages"
+            v-bind:userVisitedQuestions="userVisitedQuestions"
+            v-on:navigateToQuestion="navigateToQuestion"
+          ></navigation>
+
+          <!-- ============ to here -->
+
           <question
             v-bind:question="currentQuestion"
             v-bind:activeQuestion="activeQuestion"
@@ -84,9 +96,12 @@
           <i class="fas fa-arrow-left"></i>
           <div class="pl-2"><span class="underline">P</span>revious</div>
         </div>
-        <div class="flex items-center px-4 border-l">
+        <b-button
+          class="flex items-center px-4 border-0 bg-red-1"
+          v-b-modal.modal-1
+        >
           <i class="fas fa-star"></i> Na <span class="underline">v</span>igation
-        </div>
+        </b-button>
         <div
           v-if="activeQuestion === 'five'"
           class="cursor-pointer pl-4 border-l hover:shadow-lg hover:text-teal-1"
@@ -119,6 +134,8 @@ import moment from "moment";
 import Passage from "../components/Passage.vue";
 import Question from "../components/Question.vue";
 import Progressbar from "../components/Progressbar.vue";
+import Navigation from "../components/Navigation.vue";
+
 import { baseUrl } from "../api/routes";
 import allPassages from "../mock/data";
 import axios from "axios";
@@ -127,7 +144,8 @@ export default {
   components: {
     Passage,
     Question,
-    Progressbar
+    Progressbar,
+    Navigation
   },
   name: "Home",
   created() {
@@ -364,7 +382,8 @@ export default {
         }
       });
       return (
-        (score / this.userVisitedQuestions.questionsAttempted.length) * 100
+        (score / (this.userVisitedQuestions.questionsAttempted.length + 1)) *
+        100
       );
     },
     async saveData() {
@@ -409,6 +428,10 @@ export default {
       } else {
         this.strikethrough = false;
       }
+    },
+    navigateToQuestion({ questionIndex, passageIndex }) {
+      this.activePassage = passageIndex;
+      this.activeQuestion = questionIndex;
     }
   }
 };

@@ -65,10 +65,15 @@
 
 <script>
 import { baseUrl } from "../api/routes";
+import Navigation from "../components/Navigation.vue";
+
 export default {
   name: "login-screen",
   async created() {
     await this.fetchSubjects();
+  },
+  components: {
+    Navigation
   },
   data() {
     return {
