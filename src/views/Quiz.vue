@@ -41,7 +41,7 @@
             >
           </div>
         </div>
-        <div class="flex justify-end items-center">
+        <div class="flex justify-end items-center" @click="flagForReview">
           <i class="fas fa-flag"></i>
           <div class="pl-3"><span class="underline">Flag for Review</span></div>
         </div>
@@ -244,6 +244,7 @@ export default {
 
         // res = await res.json();
         this.handleError(res);
+
         this.passages = res.data.passages;
       } catch (error) {
         console.error(error);
@@ -432,6 +433,22 @@ export default {
     navigateToQuestion({ questionIndex, passageIndex }) {
       this.activePassage = passageIndex;
       this.activeQuestion = questionIndex;
+    },
+    flagForReview() {
+      const questionToFlag = this.currentQuestion;
+      const testPassages = this.passages.map(passage => {
+        passage.questions = [
+          ...passage.questions.map(question => {
+            if (question._id == questionToFlag._id) {
+              question.isFlagged = true;
+            }
+
+            return question;
+          })
+        ];
+        return passage;
+      });
+      this.passages = testPassages;
     }
   }
 };

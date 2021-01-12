@@ -3,13 +3,14 @@
   <b-modal id="modal-1" title="Passages" class="d-flex flex-row">
     <button
       type="button"
-      class="btn btn-light btn-sm mx-2"
+      class="btn btn-light btn-sm mx-2 my-2"
       v-bind:class="{ ' border bg-success text-white': question.isViewed }"
       v-for="(question, index) in questions"
       v-bind:key="index"
       @click="navigateToQuestion(question)"
     >
       {{ index + 1 }}
+      <i class="fas fa-flag" v-if="question.isFlagged == true"></i>
     </button>
   </b-modal>
 </template>
@@ -37,6 +38,13 @@ export default {
       });
 
       this.questions.filter(question => question != undefined);
+    },
+    passages(to, from) {
+      this.questions = [
+        ...to.map(passage => {
+          return [...passage.questions.map(question => question)];
+        })
+      ].flat(Infinity);
     }
   },
   mounted() {
