@@ -2,9 +2,39 @@
   <div id="app">
     <div class="container-responsive">
       <div class="container">
-        <h4 class="h4 text-danger">Add Passage</h4>
+        <h4 class="h4 font-weight-bold">Add Passage</h4>
         Upload the passages and questions in the approved format
-        <button class="btn btn-success" @click="submit">submit</button>
+        <hr class="hr" />
+        <br /><br />
+        <div class="form-control-group m-auto">
+          <label for="subjects" class="m-auto font-weight-bold"
+            >Select Subject</label
+          >
+          <select
+            name="Subjects"
+            id="subjects"
+            class="option px-3 m-auto border"
+            v-model="subject"
+            required
+          >
+            <!-- <option selected>Open this select menu</option> -->
+
+            <option
+              v-for="(subject, index) of subjects"
+              :value="subject"
+              v-bind:key="index"
+            >
+              {{ subject.name }}</option
+            >
+          </select>
+        </div>
+        <br /><br />
+        <button
+          class="btn btn-danger border-radius-none col-3 my-3"
+          @click="submit"
+        >
+          Submit
+        </button>
       </div>
       <div class="row">
         <div class="col-md-12">
@@ -139,7 +169,7 @@ function arrangeData(data) {
   const passage = {
     passage: data.passage,
     passagename: data.passagename,
-    subject: "5ff9707004ae603cf40a39b6"
+    subject: this.subject._id
     // subject: this.subject
   };
 
@@ -211,7 +241,17 @@ async function submit() {
     });
 
     alert("successfully created questions... you can check your database");
-    console.log(res.data);
+  } catch (error) {
+    console.log(error);
+    alert("ERROR from server");
+  }
+}
+
+async function fetchSubjects() {
+  try {
+    const res = await axios.get(`${baseUrl}/subjects`);
+
+    this.subjects = [...res.data.subjects];
   } catch (error) {
     console.log(error);
   }
@@ -220,6 +260,7 @@ var state = {
   tickets: [{ name: "test" }],
   headers: ["Test header"],
   subject: "",
+  subjects: [],
   arrangedData: []
 };
 
@@ -227,6 +268,9 @@ export default {
   name: "add-question",
   data() {
     return state;
+  },
+  mounted() {
+    this.fetchSubjects();
   },
   watch: {
     tickets(to, from) {
@@ -240,7 +284,8 @@ export default {
     handleDragover: handleDragover,
     handleDrop: handleDrop,
     arrangeData: arrangeData,
-    submit: submit
+    submit: submit,
+    fetchSubjects: fetchSubjects
   }
 };
 </script>
