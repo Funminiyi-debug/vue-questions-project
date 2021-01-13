@@ -1,6 +1,6 @@
 <template>
   <!-- Modal -->
-  <b-modal id="modal-1" title="Passages" class="d-flex flex-row">
+  <b-modal id="modal-1" title="Questions" class="d-flex flex-row">
     <button
       type="button"
       class="btn btn-light btn-sm mx-2 my-2"
