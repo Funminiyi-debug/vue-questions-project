@@ -41,7 +41,7 @@
           />
         </div>
         <br />
-        <div class="form-control-group row">
+        <div class="form-control-group row m-4">
           <label for="email" class="form-control-label col-md-2 col-12"
             >Password:</label
           >
