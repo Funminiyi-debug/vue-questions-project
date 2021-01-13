@@ -22,14 +22,14 @@
         strikethrough: strikethrough == true
       }"
     >
-      <div class="font-bold text-lg pb-2">
+      <div class="font-bold text-lg pb-2 ">
         Passage {{ activePassage + 1 }} (Questions {{ activeQuestion + 1 }}-{{
           passage.questions.length
         }})
       </div>
       <!-- <div class=""> -->
       <div
-        class="pb-2 font-serif"
+        class="pb-2 font-serif text-justify"
         v-bind:key="index"
         v-for="(section, index) in passage.passage.match(/[^\r\n]+/g)"
       >
