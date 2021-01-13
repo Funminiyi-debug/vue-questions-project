@@ -208,6 +208,14 @@ export default {
       get currentPassage() {
         return this.passages[this.activePassage];
       },
+      get allQuestions() {
+        const allQuestons = [
+          ...this.passages.map(passage => {
+            return [...passage.questions.map(question => question)];
+          })
+        ].flat(Infinity);
+        return allQuestons;
+      },
       activeQuestion: 0,
       activePassage: 0,
       dateMonth: moment().format("MMMM"),
@@ -215,7 +223,11 @@ export default {
       passages: [],
       // progress bar
       get percentage() {
-        return parseInt((this.activePassage / this.passages.length) * 100);
+        return parseInt(
+          (this.userVisitedQuestions.questionsAttempted.length /
+            this.allQuestions.length) *
+            100
+        );
       },
 
       // timer

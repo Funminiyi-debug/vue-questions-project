@@ -5,15 +5,21 @@
       <center>Welcome to the Examination. Goodluck!</center>
       <!-- <div v-bind:class="{"error":this.error}">An error occured... try again</div> -->
       <!-- @submit="handleSubmit" -->
-      <form class="container" @submit="handleSubmit" enctype="application/json">
+      <form
+        class="container m-auto px-5"
+        @submit="handleSubmit"
+        enctype="application/json"
+      >
         <br />
         <div class="form-control-group row">
-          <label for="name" class="col-2 form-control-label">Name:</label>
+          <label for="name" class="col-md-2 col-12 form-control-label"
+            >Name:</label
+          >
           <input
             type="text"
             name="name"
             id="name"
-            class="form-control col-10"
+            class="form-control col-md-10 col-12"
             placeholder="Insert your name"
             v-model="name"
             required
@@ -21,12 +27,14 @@
         </div>
         <br />
         <div class="form-control-group row">
-          <label for="email" class="form-control-label col-2">Email:</label>
+          <label for="email" class="form-control-label col-md-2 col-12"
+            >Email:</label
+          >
           <input
             type="email"
             name="email"
             id="email"
-            class="form-control col-10"
+            class="form-control col-md-10 col-12"
             placeholder="insert your email"
             v-model="email"
             required
@@ -34,12 +42,14 @@
         </div>
         <br />
         <div class="form-control-group row">
-          <label for="email" class="form-control-label col-2">Password:</label>
+          <label for="email" class="form-control-label col-md-2 col-12"
+            >Password:</label
+          >
           <input
             type="password"
             name="password"
             id="password"
-            class="form-control col-10"
+            class="form-control col-md-10 col-12"
             placeholder="insert your password"
             v-model="password"
             required
@@ -51,7 +61,7 @@
           <select
             name="Subjects"
             id="subjects"
-            class="option"
+            class="option border p-2"
             v-model="subject"
             required
           >

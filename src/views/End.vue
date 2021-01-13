@@ -3,7 +3,9 @@
     this is the end screen Quiz ended!! <br /><br />
 
     Score:
-    <div class="btn btn-light btn-lg my-5">{{ results.score }}%</div>
+    <div class="btn btn-light btn-lg my-5">
+      {{ results.score != undefined ? results.score.toFixed(2) : "0.00" }}%
+    </div>
     <br /><br />
     <router-link v-bind:to="getUrl" class="btn bg-red-1">Review</router-link>
     <div class="btn" @click="logout">Logout</div>
