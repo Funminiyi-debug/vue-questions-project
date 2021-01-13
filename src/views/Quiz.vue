@@ -394,7 +394,7 @@ export default {
           score += 1;
         }
       });
-      return ((score / this.allQuestions.length) * 100).toFixed(2);
+      return (score / this.allQuestions.length) * 100;
     },
     async saveData() {
       this.userVisitedQuestions.timeTaken = this.counter;
