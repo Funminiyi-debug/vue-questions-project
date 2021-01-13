@@ -24,7 +24,17 @@ const getDefaultState = () => {
   return {
     user: "",
     results: "",
-    allUsers: []
+    allUsers: [],
+    passages: [],
+    userVisitedQuestions: {
+      userVisitedQuestions: {
+        username: "",
+        email: "",
+        questionsAttempted: [],
+        questionsAnswered: [],
+        score: 0
+      }
+    }
   };
 };
 Vue.use(Vuex);
@@ -35,7 +45,9 @@ const store = new Vuex.Store({
   getters: {
     user: state => state.user,
     results: state => state.results,
-    allUsers: state => state.allUsers
+    allUsers: state => state.allUsers,
+    userVisitedQuestions: state => state.userVisitedQuestions,
+    passages: state => state.passages
   },
   actions: {
     async logout() {
@@ -58,6 +70,12 @@ const store = new Vuex.Store({
     },
     getAllUsers(state, payload) {
       state.allUsers = [...payload];
+    },
+    userVisitedQuestions(state, payload) {
+      state.userVisitedQuestions = payload;
+    },
+    passages(state, payload) {
+      state.passages = payload;
     }
   },
   plugins: [

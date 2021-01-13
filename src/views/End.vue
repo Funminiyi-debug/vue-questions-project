@@ -7,7 +7,9 @@
       {{ results.score != undefined ? results.score.toFixed(2) : "0.00" }}%
     </div>
     <br /><br />
-    <router-link v-bind:to="getUrl" class="btn bg-red-1">Review</router-link>
+    <router-link v-bind:to="getUrl" class="btn bg-red-1 text-white"
+      >Review</router-link
+    >
     <div class="btn" @click="logout">Logout</div>
   </div>
 </template>
@@ -20,7 +22,6 @@ export default {
   props: ["results"],
   watch: {
     $route(to, from) {
-      console.log(to.params.username);
       this.username = to.params.username;
       this.subjectid = to.params.subjectid;
     }

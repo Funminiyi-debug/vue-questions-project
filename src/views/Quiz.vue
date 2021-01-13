@@ -394,10 +394,7 @@ export default {
           score += 1;
         }
       });
-      return (
-        (score / (this.userVisitedQuestions.questionsAttempted.length + 1)) *
-        100
-      );
+      return (score / this.allQuestions.length) * 100;
     },
     async saveData() {
       this.userVisitedQuestions.timeTaken = this.counter;
@@ -419,6 +416,8 @@ export default {
         }
       };
 
+      this.$store.commit("userVisitedQuestions", this.userVisitedQuestions);
+      this.$store.commit("passages", this.passages);
       this.$emit("addResults", request.subject);
 
       const res = await axios.post(`${baseUrl}/users/add-subject-to-user`, {

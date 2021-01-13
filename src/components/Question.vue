@@ -48,28 +48,42 @@
 /* eslint-disable */
 export default {
   name: "question",
-  props: ["question", "activeQuestion", "userAnswer", "inReview"],
+  props: [
+    "question",
+    "activeQuestion",
+    "userAnswer",
+    "inReview",
+    "correctAnswer"
+  ],
 
   data() {
     return {
       picked: "",
-      options: ["A", "B", "C", "D", "E"],
-      correctAnswer: this.question.alternatives.find(
-        value => value.isCorrect == true
-      ).text
+      options: ["A", "B", "C", "D", "E"]
+      // correctAnswer: this.question.alternatives.find(
+      //   value => value.isCorrect == true
+      // ).text
     };
   },
   watch: {
     picked(newValue, oldValue) {
-      this.$emit("answer-choice", {
-        userAnswer: newValue
-      });
+      if (this.inReview == false) {
+        this.$emit("answer-choice", {
+          userAnswer: newValue
+        });
+      }
     },
     question(newValue, oldValue) {
       if (this.userAnswer) {
         this.picked = this.userAnswer;
         return;
       }
+      // ========== beta
+      // this.correctAnswer = this.question.alternatives.find(
+      //   value => value.isCorrect == true
+      // ).text;
+
+      // end of beta
       this.picked = "";
     }
   },
