@@ -11,7 +11,7 @@
         enctype="application/json"
       >
         <br />
-        <div class="form-control-group row">
+        <div class="form-control-group row m-4">
           <label for="name" class="col-md-2 col-12 form-control-label"
             >Name:</label
           >
@@ -26,7 +26,7 @@
           />
         </div>
         <br />
-        <div class="form-control-group row">
+        <div class="form-control-group row m-4">
           <label for="email" class="form-control-label col-md-2 col-12"
             >Email:</label
           >
