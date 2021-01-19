@@ -24,14 +24,15 @@
           levels of p-STAT5 and p-ERK1/2 in the presence or absence of G-CSF for
           WT G-CSFR and T618I mutant G-CSFR. The results are shown in Figure 1.
         </div>
-        <div class="pl-12">
-          <img alt="Vue logo" src="../assets/exampic.png" />
-        </div>
-        <div class="pb-2">
+        <div>
+          <div class="pl-12">
+            <img alt="Vue logo" src="../assets/exampic.png" />
+          </div>
+          <!-- <div class="pb-2">
           <span class="text-sm">Figure 1.</span> Target phosphorylation of
           proteins of interest under different conditions.
+        </div> -->
         </div>
-
         In subsequent experiments, the researchers tested other G-CSFR mutants,
         including a Q741n mutant, where “n” indicates any of the other 19 amino
         acids. They found that some substitutions led to increased signaling

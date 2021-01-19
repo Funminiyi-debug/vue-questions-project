@@ -225,8 +225,17 @@ function arrangeData(data) {
     questions.length
   );
 
+  // user explanations
+  let answerExplanations = Object.keys(data).map(key => {
+    if (key.indexOf("userExplanation") != -1) {
+      return data[key];
+    }
+  });
+
+  answerExplanations = answerExplanations.filter(exp => exp != undefined);
   passage.questions = questions.map((element, index) => {
     element.alternatives = [...dividedAlternatives[index]];
+    element.answerExplanation = answerExplanations[index];
     return element;
   });
 

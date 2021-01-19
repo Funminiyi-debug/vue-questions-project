@@ -36,7 +36,8 @@
         <!-- <input type="submit" value="submit" class="btn btn-danger" /> -->
         <div class="text-info py-5" v-if="inReview == true">
           You chose {{ userAnswer }} <br />
-          Correct Answer {{ correctAnswer }}
+          Correct Answer {{ correctAnswer }} <br />
+          Explanation: {{ question.answerExplanation }}
         </div>
       </form>
       <br />

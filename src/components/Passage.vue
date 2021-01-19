@@ -27,6 +27,7 @@
           passage.questions.length
         }})
       </div>
+
       <!-- <div class=""> -->
       <div
         class="pb-2 font-serif text-justify"
@@ -35,22 +36,31 @@
       >
         {{ section }}
       </div>
+      <div
+        class="image-section"
+        v-for="(image, index) in passage.passageImages"
+        v-bind:key="index"
+      >
+        <div class="pl-12 m-auto">
+          <img :alt="`${image.name}`" :src="returnImage(image.data)" />
+        </div>
+        <div class="pb-2">
+          <span class="text-sm">Figure {{ index + 1 }}</span> {{ image.name }}
+        </div>
+      </div>
       <!-- </div> -->
     </div>
   </div>
 </template>
 
 <script>
-// import rangy from "rangy";
-// import "../rangy/rangy-core";
-// import "../rangy/rangy-cssclassapplier";
 import "core-js/features/array/includes";
 import "core-js/features/object/assign"; /* eslint-disable */
-// import * as rangyClassApplier from "rangy-classapplier";
 export default {
   mounted() {
     this.$nextTick(() => {
       this.selection = window.getSelection();
+      console.log(this.passage.passageImages);
     });
   },
   watch: {
@@ -79,6 +89,15 @@ export default {
     },
     prevPassage() {
       this.$emit("prev_passage");
+    },
+    returnImage(image) {
+      var bytes = new Uint8Array(image.data);
+      var binary = bytes.reduce(
+        (data, b) => (data += String.fromCharCode(b)),
+        ""
+      );
+      const src = `data:image/${image.contentType};base64,${btoa(binary)}`;
+      return src;
     }
   }
 };

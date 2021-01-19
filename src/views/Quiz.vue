@@ -53,7 +53,7 @@
           <div></div>
         </div>
       </div>
-      <div class="lg:grid lg:grid-cols-2 bg-red-1 h-full">
+      <div class="lg:grid lg:grid-cols-2 bg-red-1 h-full quiz-window">
         <passage
           v-bind:passage="currentPassage"
           v-bind:activePassage="activePassage"

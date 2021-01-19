@@ -41,6 +41,11 @@
                 >
               </td>
               <td>{{ user.email }}</td>
+              <td>
+                <button class="btn btn-danger" @click="handleDelete(user._id)">
+                  Delete
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -52,6 +57,7 @@
 <script>
 import axios from "axios";
 import { baseUrl } from "../api/routes";
+
 export default {
   name: "Admin",
   mounted() {
@@ -73,6 +79,15 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    // Delete
+    async handleDelete(id) {
+      try {
+        const res = await axios.delete(`${baseUrl}/users/${id}`);
+      } catch (error) {
+        console.log(error);
+      }
+      this.users = this.users.filter(element => element._id != id);
     }
   }
 };

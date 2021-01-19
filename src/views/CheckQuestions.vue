@@ -4,11 +4,20 @@
 
     <ul class="list-group my-5">
       <li
-        class="list-group-item text-justify"
+        class="list-group-item text-justify btn-light"
         v-for="(subject, index) in subjects"
         v-bind:key="index"
       >
-        {{ subject.name }}
+        <router-link
+          :to="{ name: 'all-passages', params: { subjectid: subject._id } }"
+        >
+          {{ subject.name }}</router-link
+        >
+        <span class="float-right">
+          <button class="btn btn-danger" @click="handleDelete(subject._id)">
+            Delete
+          </button></span
+        >
       </li>
     </ul>
 
@@ -58,6 +67,14 @@ export default {
         alert("Server error");
         console.log(error);
       }
+    },
+    async handleDelete(id) {
+      try {
+        const res = await axios.delete(`${baseUrl}/subjects/${id}`);
+      } catch (error) {
+        console.log(error);
+      }
+      this.subjects = this.subjects.filter(element => element._id != id);
     }
   }
 };

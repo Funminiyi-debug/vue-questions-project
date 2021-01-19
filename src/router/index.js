@@ -8,6 +8,7 @@ import AdminDashboard from "../views/AdminDashBoard.vue";
 import AddQuestion from "../views/AddQuestion.vue";
 import CheckQuestions from "../views/CheckQuestions.vue";
 import StudentResult from "../views/StudentResult.vue";
+import AllPassages from "../views/AllPassages.vue";
 
 Vue.use(VueRouter);
 
@@ -43,6 +44,11 @@ const routes = [
     path: "/admin/check-questions",
     name: "check-questions",
     component: CheckQuestions
+  },
+  {
+    path: "/admin/all-passages/:subjectid",
+    name: "all-passages",
+    component: AllPassages
   },
   {
     path: "/",
