@@ -31,21 +31,22 @@
       <!-- <div class=""> -->
       <div
         class="pb-2 font-serif text-justify"
-        v-bind:key="index"
         v-for="(section, index) in passage.passage.match(/[^\r\n]+/g)"
+        v-bind:key="`passage_${index}`"
       >
         {{ section }}
       </div>
       <div
         class="image-section"
         v-for="(image, index) in passage.passageImages"
-        v-bind:key="index"
+        v-bind:key="`image_${index}`"
       >
         <div class="pl-12 m-auto">
           <img :alt="`${image.name}`" :src="returnImage(image.data)" />
         </div>
         <div class="pb-2">
-          <span class="text-sm">Figure {{ index + 1 }}</span> {{ image.name }}
+          <span class="text-sm">Figure {{ index + 1 }}</span>
+          {{ image.name.substring(0, image.name.lastIndexOf(".")) }}
         </div>
       </div>
       <!-- </div> -->
@@ -60,7 +61,6 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.selection = window.getSelection();
-      console.log(this.passage.passageImages);
     });
   },
   watch: {

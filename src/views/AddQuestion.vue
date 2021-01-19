@@ -227,7 +227,7 @@ function arrangeData(data) {
 
   // user explanations
   let answerExplanations = Object.keys(data).map(key => {
-    if (key.indexOf("userExplanation") != -1) {
+    if (key.indexOf("answerExplanation") != -1) {
       return data[key];
     }
   });
@@ -238,7 +238,6 @@ function arrangeData(data) {
     element.answerExplanation = answerExplanations[index];
     return element;
   });
-
   return passage;
 }
 // end of long code
