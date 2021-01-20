@@ -9,7 +9,7 @@ import AddQuestion from "../views/AddQuestion.vue";
 import CheckQuestions from "../views/CheckQuestions.vue";
 import StudentResult from "../views/StudentResult.vue";
 import AllPassages from "../views/AllPassages.vue";
-
+import NotFound from "../views/NotFound.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -58,6 +58,11 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/Intro.vue")
+  },
+  {
+    path: "*",
+    name: "NotFound",
+    component: NotFound
   }
 ];
 
