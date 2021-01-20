@@ -1,59 +1,62 @@
 <template>
   <div>
     <div class="lg:text-sm" v-if="passages.length > 0">
-      <div
-        class="bg-red-1 h-10 text-white items-center px-2 text-xs flex justify-between border-b border-white"
-      >
-        <div class="font-sans">
-          Medical College Admission Test
-          <!-- <span>{{ dateMonth }} {{ dateDay }}</span> -->
-        </div>
-        <!-- <img alt="Vue logo" src="./assets/logo.jpeg" /> -->
-        <i class="fab fa-stumbleupon fa-3x"></i>
-        <div class="flex flex-col">
-          <div class="flex items-center">
-            <div><i class="far fa-clock"></i></div>
-            <div class="px-2">Timer:</div>
-            <div class="hover:text-green-300 cursor-pointer">
-              <i class="fas fa-play"></i>
+      <div class="top-bar">
+        <div
+          class="bg-red-1 h-10 text-white items-center px-2 text-xs flex justify-between border-b border-white"
+        >
+          <div class="font-sans">
+            Medical College Admission Test
+          </div>
+          <img alt="Logo" src="../assets/brand-logo.png" class="logo" />
+          <!-- <i class="fab fa-stumbleupon fa-3x"></i> -->
+          <div class="flex flex-col">
+            <div class="flex items-center">
+              <div><i class="far fa-clock"></i></div>
+              <div class="px-2">Timer:</div>
+              <div class="hover:text-green-300 cursor-pointer">
+                <i class="fas fa-play"></i>
+              </div>
+              <div class="px-2">{{ counter }}</div>
+              <i class="fas fa-toggle-off"></i>
             </div>
-            <div class="px-2">{{ counter }}</div>
-            <i class="fas fa-toggle-off"></i>
-          </div>
-          <div class="flex items-center justify-end">
-            <!-- <span class="pl-2"> 1 of 7 </span> -->
+            <div class="flex items-center justify-end">
+              <!-- <span class="pl-2"> 1 of 7 </span> -->
+            </div>
           </div>
         </div>
+        <div
+          class="bg-red-2 border-b text-xs text-white border-white flex items-center px-2 justify-between"
+        >
+          <div class="flex">
+            <div class="cursor-pointer">
+              <span v-on:click="highlightText"
+                ><span class="underline">H</span>ighlight</span
+              >
+            </div>
+            <div class="pl-8 flex items-center">
+              <i class="fas fa-pen"></i>
+              <span v-on:click="strikethroughText">
+                <span class="pl-4 underline">Strikethrough</span></span
+              >
+            </div>
+          </div>
+          <div class="flex justify-end items-center" @click="flagForReview">
+            <i class="fas fa-flag"></i>
+            <div class="pl-3">
+              <span class="underline">Flag for Review</span>
+            </div>
+          </div>
+        </div>
+        <progressbar v-bind:percentage="percentage" />
       </div>
-      <div
-        class="bg-red-2 border-b text-xs text-white border-white flex items-center px-2 justify-between"
-      >
-        <div class="flex">
-          <div class="cursor-pointer">
-            <span v-on:click="highlightText"
-              ><span class="underline">H</span>ighlight</span
-            >
-          </div>
-          <div class="pl-8 flex items-center">
-            <i class="fas fa-pen"></i>
-            <span v-on:click="strikethroughText">
-              <span class="pl-4 underline">Strikethrough</span></span
-            >
-          </div>
-        </div>
-        <div class="flex justify-end items-center" @click="flagForReview">
-          <i class="fas fa-flag"></i>
-          <div class="pl-3"><span class="underline">Flag for Review</span></div>
-        </div>
-      </div>
-      <progressbar v-bind:percentage="percentage" />
 
-      <div class="bg-teal-1 h-5 lg:block hidden">
+      <!-- <div class="bg-teal-1 h-5 lg:block hidden">
         <div class="grid grid-cols-2">
           <div></div>
         </div>
-      </div>
-      <div class="lg:grid lg:grid-cols-2 bg-red-1 h-full quiz-window">
+      </div> -->
+      <div class="lg:grid lg:grid-cols-2 bg-red-1  quiz-window window ">
         <passage
           v-bind:passage="currentPassage"
           v-bind:activePassage="activePassage"
@@ -91,17 +94,14 @@
       >
         <div
           @click="previous"
-          class="flex items-center px-4 border-l cursor-pointer  hover:text-teal-1"
+          class="flex items-center px-2 border-l cursor-pointer  hover:text-teal-1"
         >
           <i class="fas fa-arrow-left"></i>
           <div class="pl-2"><span class="underline">P</span>revious</div>
         </div>
-        <b-button
-          class="flex items-center px-4 border-0 bg-red-1"
-          v-b-modal.modal-1
-        >
+        <div class="flex items-center px-4 border-0 bg-red-1" v-b-modal.modal-1>
           <i class="fas fa-star"></i> Na <span class="underline">v</span>igation
-        </b-button>
+        </div>
         <div
           v-if="activeQuestion === 'five'"
           class="cursor-pointer pl-4 border-l hover:shadow-lg hover:text-teal-1"
@@ -467,17 +467,34 @@ export default {
 
 <style src="../assets/css/tailwind.css"></style>
 <style scoped>
-/* .bottom-bar {
-  position: absolute;
+.bottom-bar {
+  position: fixed;
   bottom: 0;
   right: 0;
   left: 0;
-} */
+  overflow: auto;
+}
+.top-bar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  overflow: auto;
+}
 .underline {
   cursor: pointer;
+}
+
+.window {
+  /* min-height: 70vh; */
 }
 </style>
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=PT+Serif&display=swap");
+.logo {
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+  height: 2rem;
+}
 </style>

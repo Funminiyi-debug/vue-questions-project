@@ -1,6 +1,12 @@
 <template>
-  <div class="bg-white mx-1 px-4 h-full">
+  <div class="bg-white mx-1 px-4 h-full overflow-auto h-screen question-window">
     <div class="font-bold text-lg pt-6 pb-2">
+      <img
+        alt="Logo"
+        src="../assets/brand-logo.png"
+        class="logo-1 m-auto my-3"
+      />
+
       Question {{ activeQuestion + 1 }}
     </div>
     <div
@@ -101,4 +107,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.logo-1 {
+  height: 3rem;
+  margin-bottom: 2rem !important;
+}
+.question-window {
+  padding-top: 4rem;
+}
+</style>

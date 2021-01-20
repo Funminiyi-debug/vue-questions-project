@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white mx-1 mb-2 h-full">
+  <div class="bg-white mx-1 mb-12 h-full overflow-auto h-screen passage-window">
     <div class="flex justify-between p-4">
       <button
         class="p-1 hover:bg-red-1 border hover:text-white hover:shadow-lg"
@@ -121,5 +121,8 @@ export default {
 ::selection {
   color: red;
   background: yellow;
+}
+.passage-window {
+  padding-top: 4rem;
 }
 </style>

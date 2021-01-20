@@ -2,52 +2,59 @@
   <div>
     <div v-if="passages.length == 0">Loading</div>
     <div class="lg:text-sm" v-if="passages.length > 0">
-      <div
-        class="bg-red-1 h-10 text-white items-center px-2 text-xs flex justify-between border-b border-white"
-      >
-        <div class="font-sans">
-          Medical College Admission Test
-          <!-- <span>{{ dateMonth }} {{ dateDay }}</span> -->
-        </div>
-        <!-- <img alt="Vue logo" src="./assets/logo.jpeg" /> -->
-        <i class="fab fa-stumbleupon fa-3x"></i>
-        <div class="flex flex-col">
-          <div class="flex items-center">
-            <div><i class="far fa-clock"></i></div>
-            <div class="px-2">Timer:</div>
-            <div class="hover:text-green-300 cursor-pointer">
-              <i class="fas fa-play"></i>
+      <div class="top-bar">
+        <div
+          class="bg-red-1 h-10 text-white items-center px-2 text-xs flex justify-between border-b border-white"
+        >
+          <div class="font-sans">
+            Medical College Admission Test
+            <!-- <span>{{ dateMonth }} {{ dateDay }}</span> -->
+          </div>
+          <!-- <img alt="Vue logo" src="./assets/logo.jpeg" /> -->
+          <img alt="Logo" src="../assets/brand-logo.png" class="logo" />
+
+          <!-- <i class="fab fa-stumbleupon fa-3x"></i> -->
+          <div class="flex flex-col">
+            <div class="flex items-center">
+              <div><i class="far fa-clock"></i></div>
+              <div class="px-2">Timer:</div>
+              <div class="hover:text-green-300 cursor-pointer">
+                <i class="fas fa-play"></i>
+              </div>
+              <div class="px-2">{{ userVisitedQuestions.timeTaken }}</div>
+              <i class="fas fa-toggle-off"></i>
             </div>
-            <div class="px-2">{{ userVisitedQuestions.timeTaken }}</div>
-            <i class="fas fa-toggle-off"></i>
+            <div class="flex items-center justify-end">
+              <!-- <span class="pl-2"> 1 of 7 </span> -->
+            </div>
           </div>
-          <div class="flex items-center justify-end">
-            <!-- <span class="pl-2"> 1 of 7 </span> -->
+        </div>
+        <div
+          class="bg-red-2 border-b text-xs text-white border-white flex items-center px-2 justify-between"
+        >
+          <div class="flex">
+            <div class="cursor-pointer">
+              <span class="underline">H</span>ighlight
+            </div>
+            <div class="pl-8 flex items-center">
+              <i class="fas fa-pen"></i>
+              <span class="pl-4 underline">Strikethrough</span>
+            </div>
+          </div>
+          <div class="flex justify-end items-center">
+            <i class="fas fa-flag"></i>
+            <div class="pl-3">
+              <span class="underline">Flag for Review</span>
+            </div>
           </div>
         </div>
       </div>
-      <div
-        class="bg-red-2 border-b text-xs text-white border-white flex items-center px-2 justify-between"
-      >
-        <div class="flex">
-          <div class="cursor-pointer">
-            <span class="underline">H</span>ighlight
-          </div>
-          <div class="pl-8 flex items-center">
-            <i class="fas fa-pen"></i>
-            <span class="pl-4 underline">Strikethrough</span>
-          </div>
-        </div>
-        <div class="flex justify-end items-center">
-          <i class="fas fa-flag"></i>
-          <div class="pl-3"><span class="underline">Flag for Review</span></div>
-        </div>
-      </div>
-      <div class="bg-teal-1 h-5 lg:block hidden">
+      <!-- <div class="bg-teal-1 h-5 lg:block hidden">
         <div class="grid grid-cols-2">
           <div></div>
         </div>
-      </div>
+      </div> -->
+      <progressbar v-bind:percentage="percentage" />
       <div class="lg:grid lg:grid-cols-2 bg-red-1 h-full">
         <passage
           v-bind:passage="currentPassage"
@@ -57,6 +64,13 @@
           v-on:next_passage="nextPassage"
         ></passage>
         <div>
+          <navigation
+            v-bind:currentQuestion="currentQuestion"
+            v-bind:currentPassage="currentPassage"
+            v-bind:passages="passages"
+            v-bind:userVisitedQuestions="userVisitedQuestions"
+            v-on:navigateToQuestion="navigateToQuestion"
+          ></navigation>
           <!-- v-bind:userAnswer="currentUserAnswer" -->
           <question
             v-bind:question="currentQuestion"
@@ -68,8 +82,9 @@
           ></question>
         </div>
       </div>
-      <progressbar v-bind:percentage="percentage" />
-      <div class="bg-red-1 flex items-center h-12 justify-end text-white pr-8">
+      <div
+        class="bg-red-1 flex items-center h-12 justify-end text-white pr-8 bottom-bar"
+      >
         <div
           @click="previous"
           class="flex items-center px-4 border-l cursor-pointer  hover:text-teal-1"
@@ -77,7 +92,7 @@
           <i class="fas fa-arrow-left"></i>
           <div class="pl-2"><span class="underline">P</span>revious</div>
         </div>
-        <div class="flex items-center px-4 border-l">
+        <div class="flex items-center px-4 border-0 bg-red-1" v-b-modal.modal-1>
           <i class="fas fa-star"></i> Na <span class="underline">v</span>igation
         </div>
         <div
@@ -106,6 +121,7 @@ import moment from "moment";
 import Passage from "../components/Passage.vue";
 import Question from "../components/Question.vue";
 import Progressbar from "../components/Progressbar.vue";
+import Navigation from "../components/Navigation.vue";
 import axios from "axios";
 import { baseUrl } from "../api/routes";
 
@@ -113,7 +129,8 @@ export default {
   components: {
     Passage,
     Question,
-    Progressbar
+    Progressbar,
+    Navigation
   },
   name: "Review",
   props: ["user"],
@@ -245,7 +262,11 @@ export default {
     endQuiz() {
       return this.$router.push({ name: "End" });
     },
-    selectAnswer(answer) {}
+    selectAnswer(answer) {},
+    navigateToQuestion({ questionIndex, passageIndex }) {
+      this.activePassage = passageIndex;
+      this.activeQuestion = questionIndex;
+    }
 
     // user interaction side
   }
@@ -256,4 +277,18 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=PT+Serif&display=swap");
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  overflow: auto;
+}
+.top-bar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  overflow: auto;
+}
 </style>
