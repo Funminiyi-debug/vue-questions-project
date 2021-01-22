@@ -34,7 +34,8 @@ const getDefaultState = () => {
         questionsAnswered: [],
         score: 0
       }
-    }
+    },
+    isAdmin: false
   };
 };
 Vue.use(Vuex);
@@ -47,7 +48,8 @@ const store = new Vuex.Store({
     results: state => state.results,
     allUsers: state => state.allUsers,
     userVisitedQuestions: state => state.userVisitedQuestions,
-    passages: state => state.passages
+    passages: state => state.passages,
+    isAdmin: state => state.isAdmin
   },
   actions: {
     async logout() {
@@ -76,6 +78,9 @@ const store = new Vuex.Store({
     },
     passages(state, payload) {
       state.passages = payload;
+    },
+    isAdmin(state, payload) {
+      state.isAdmin = true;
     }
   },
   plugins: [

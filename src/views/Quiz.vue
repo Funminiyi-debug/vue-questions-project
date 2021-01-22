@@ -8,7 +8,7 @@
           <div class="font-sans">
             Medical College Admission Test
           </div>
-          <img alt="Logo" src="../assets/brand-logo.png" class="logo" />
+          <img alt="Logo" src="../assets/brand-logo-white.png" class="logo" />
           <!-- <i class="fab fa-stumbleupon fa-3x"></i> -->
           <div class="flex flex-col">
             <div class="flex items-center">
@@ -124,7 +124,13 @@
         </div>
       </div>
     </div>
-    <div v-if="passages.length == 0" class="m-auto text-info">Loading...</div>
+    <div v-if="passages.length == 0" class="m-auto text-info">
+      <div class="text-center my-5">
+        <div class="spinner-border">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -493,8 +499,8 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css2?family=PT+Serif&display=swap");
 .logo {
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-  height: 2rem;
+  /* filter: invert(100%);
+  -webkit-filter: invert(100%); */
+  height: 2.5rem;
 }
 </style>

@@ -1,90 +1,82 @@
 <template
-  ><div>
-    <div v-if="subjects.length > 0">
-      <div class="about"></div>
-      <center>Welcome to the Examination. Goodluck!</center>
-      <!-- <div v-bind:class="{"error":this.error}">An error occured... try again</div> -->
-      <!-- @submit="handleSubmit" -->
-      <form
-        class="container m-auto px-5"
-        @submit="handleSubmit"
-        enctype="application/json"
-      >
-        <br />
-        <div class="form-control-group row m-4">
-          <label for="name" class="col-md-2 col-12 form-control-label"
-            >Name:</label
-          >
-          <input
-            type="text"
-            name="name"
-            id="name"
-            class="form-control col-md-10 col-12"
-            placeholder="Insert your name"
-            v-model="name"
-            required
-          />
+  ><div class="body">
+    <div class="authentication" v-if="subjects.length > 0">
+      <form @submit="handleSubmit" enctype="application/json" class="container">
+        <div class="row justify-content-md-center">
+          <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
+            <div class="login-screen">
+              <div class="login-box text-justify">
+                <a href="#" class="login-logo">
+                  <img alt="Logo" src="../assets/brand-logo.png" class="logo" />
+                </a>
+                <h5>Create An Account</h5>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Full Name"
+                    v-model="name"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Email Address"
+                    v-model="email"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="Password"
+                    v-model="password"
+                    required
+                  />
+                </div>
+                <div>
+                  <div class="form-group">
+                    <select class="form-control" v-model="subject">
+                      <option
+                        v-for="(subject, index) of subjects"
+                        :value="subject"
+                        v-bind:key="index"
+                      >
+                        {{ subject.name }}</option
+                      >
+                    </select>
+                  </div>
+                </div>
+                <div class="actions mb-4">
+                  <button type="submit" class="btn bg-red-1 text-white">
+                    Register and Start Quiz
+                  </button>
+                </div>
+                <!-- <div class="forgot-pwd">
+                  <a class="link" href="forgot-pwd.html">Forgot password?</a>
+                </div> -->
+                <hr />
+                <div class="actions align-left">
+                  <span class="additional-link">Have an Account?</span>
+                  <router-link to="/" class="btn btn-dark">Login</router-link>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <br />
-        <div class="form-control-group row m-4">
-          <label for="email" class="form-control-label col-md-2 col-12"
-            >Email:</label
-          >
-          <input
-            type="email"
-            name="email"
-            id="email"
-            class="form-control col-md-10 col-12"
-            placeholder="insert your email"
-            v-model="email"
-            required
-          />
-        </div>
-        <br />
-        <div class="form-control-group row m-4">
-          <label for="email" class="form-control-label col-md-2 col-12"
-            >Password:</label
-          >
-          <input
-            type="password"
-            name="password"
-            id="password"
-            class="form-control col-md-10 col-12"
-            placeholder="insert your password"
-            v-model="password"
-            required
-          />
-        </div>
-        <br />
-        <div class="form-control-group">
-          <label for="subjects" class="px-5">Select Your Subject</label>
-          <select
-            name="Subjects"
-            id="subjects"
-            class="option border p-2"
-            v-model="subject"
-            required
-          >
-            <!-- <option selected>Open this select menu</option> -->
-            <option
-              v-for="(subject, index) of subjects"
-              :value="subject"
-              v-bind:key="index"
-              >{{ subject.name }}</option
-            >
-          </select>
-        </div>
-        <br />
-        <input
-          type="submit"
-          value="Register and Start Quiz"
-          class="btn btn-dark bg-red-1"
-        />
+        <!-- </div> -->
       </form>
-      <br />
-      <p>or <router-link to="/login">Login</router-link></p>
     </div>
-    <div v-if="subjects.length == 0">Loading...</div>
+    <div v-if="subjects.length == 0">
+      <div class="text-center">
+        <div class="spinner-border">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -176,5 +168,21 @@ export default {
 <style scoped>
 .option {
   padding: 10px;
+}
+/* .background {
+  background-color: rgb(49, 49, 49);
+  margin: 0;
+  height: 100vh;
+  width: 100%;
+} */
+.logo {
+  margin: 0 auto;
+}
+
+.authentication {
+  height: 100vh;
+}
+.body {
+  min-height: 100%;
 }
 </style>

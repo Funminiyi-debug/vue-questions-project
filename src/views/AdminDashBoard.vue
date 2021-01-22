@@ -1,54 +1,84 @@
 <template
   ><div>
     <div v-if="users.length == 0">
-      Loading...
+      <div class="text-center my-5">
+        <div class="spinner-border">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
     </div>
     <!-- change this area later when network comes -->
-    <div class="container " v-if="users.length > 0">
-      <!-- to here back to greater than -->
-      <h1 class="h4 my-3 py-5">
-        Admin dashboard
-      </h1>
-      <hr class="hr" />
-      <div class="row">
-        <router-link
-          to="/admin/add-question"
-          class="btn btn-info mr-auto col-6"
-        >
-          Add Passage</router-link
-        >
-        <router-link
-          to="/admin/check-questions"
-          class="btn btn-danger col-6 ml-auto"
-          >Subjects</router-link
-        >
+    <div class=" jumbotron" v-if="users.length > 0">
+      <h1 class="styled">Dashboard</h1>
+      <div class="row gutters">
+        <div class="col-md-6 col-sm-6 col-12">
+          <router-link to="/admin/add-question">
+            <div class="info-stats4 icons">
+              <div class="info-icon">
+                <i class="fa fa-book fa-lg text-red-1 " aria-hidden="true"></i>
+              </div>
+              <div class="sale-num">
+                <h5 class="text-danger">Add Passages</h5>
+                <!-- <p>Orders</p> -->
+              </div>
+            </div>
+          </router-link>
+        </div>
+        <div class=" col-md-6 col-sm-6 col-12">
+          <router-link to="/admin/check-questions">
+            <div class="info-stats4 icons">
+              <div class="info-icon">
+                <i
+                  class="fa fa-columns fa-lg text-red-1"
+                  aria-hidden="true"
+                ></i>
+              </div>
+              <div class="sale-num">
+                <h5 class="text-danger">Subjects</h5>
+              </div>
+            </div>
+          </router-link>
+        </div>
       </div>
-      <div class="row">
-        <h1 class="h5 text-center my-4 m-auto">Students</h1>
-        <table class="table">
-          <thead>
-            <th>S/N</th>
-            <th>Name</th>
-            <th>Email</th>
-          </thead>
-          <tbody>
-            <tr v-for="(user, index) in users" v-bind:key="index">
-              <td>{{ index + 1 }}</td>
-              <td class="text-info">
-                <router-link
-                  :to="{ name: 'student-result', params: { id: user._id } }"
-                  >{{ user.name }}</router-link
-                >
-              </td>
-              <td>{{ user.email }}</td>
-              <td>
-                <button class="btn btn-danger" @click="handleDelete(user._id)">
-                  Delete
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+
+      <h3 class="styled">Students</h3>
+      <div class="row ">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="table-container">
+            <div class="table-responsive">
+              <table class="table custom-table m-0">
+                <thead>
+                  <th>S/N</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                </thead>
+                <tbody>
+                  <tr v-for="(user, index) in users" v-bind:key="index">
+                    <td>{{ index + 1 }}</td>
+                    <td class="text-info">
+                      <router-link
+                        :to="{
+                          name: 'student-result',
+                          params: { id: user._id }
+                        }"
+                        >{{ user.name }}</router-link
+                      >
+                    </td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                      <button
+                        class="btn btn-danger"
+                        @click="handleDelete(user._id)"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -62,6 +92,10 @@ export default {
   name: "Admin",
   mounted() {
     this.$nextTick(() => {
+      const isAdmin = this.$store.getters.isAdmin;
+      if (!isAdmin) {
+        this.$router.push("/admin-login");
+      }
       this.fetchUsers();
     });
   },
@@ -92,9 +126,28 @@ export default {
   }
 };
 </script>
-
+<style scoped>
+@import url("../assets/fonts/style.css");
+</style>
 <style scoped>
 .btn {
   border-radius: 0 !important;
+}
+.icons:hover,
+.icons p:hover {
+  background-color: rgb(196, 192, 192);
+  text-decoration: none;
+}
+
+.icons p {
+  color: black !important;
+}
+
+.icons p:hover {
+  color: white;
+}
+
+a {
+  text-decoration: none !important;
 }
 </style>

@@ -49,6 +49,10 @@ export default {
   name: "all-passages",
   mounted() {
     this.$nextTick(() => {
+      const isAdmin = this.$store.getters.isAdmin;
+      if (!isAdmin) {
+        this.$router.push("/admin-login");
+      }
       this.fetchPassages();
       this.fetchSubject(this.$route.params.subjectid);
     });

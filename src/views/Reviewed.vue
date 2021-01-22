@@ -1,6 +1,12 @@
 <template>
   <div>
-    <div v-if="passages.length == 0">Loading</div>
+    <div v-if="passages.length == 0">
+      <div class="text-center">
+        <div class="spinner-border">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </div>
     <div class="lg:text-sm" v-if="passages.length > 0">
       <div class="top-bar">
         <div

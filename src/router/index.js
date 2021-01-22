@@ -10,6 +10,8 @@ import CheckQuestions from "../views/CheckQuestions.vue";
 import StudentResult from "../views/StudentResult.vue";
 import AllPassages from "../views/AllPassages.vue";
 import NotFound from "../views/NotFound.vue";
+import AdminLogin from "../views/AdminLogin";
+import Intro from "../views/Intro";
 Vue.use(VueRouter);
 
 const routes = [
@@ -24,9 +26,9 @@ const routes = [
     component: End
   },
   {
-    path: "/login",
-    name: "Login",
-    component: Login
+    path: "/signup",
+    name: "Signup",
+    component: Intro
   },
   { path: "/review/:subjectid", name: "Review", component: Reviewed },
   {
@@ -51,13 +53,18 @@ const routes = [
     component: AllPassages
   },
   {
+    path: "/admin-login",
+    name: "admin-login",
+    component: AdminLogin
+  },
+  {
     path: "/",
-    name: "About",
+    name: "Intro",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Intro.vue")
+      import(/* webpackChunkName: "about" */ "../views/Login.vue")
   },
   {
     path: "*",

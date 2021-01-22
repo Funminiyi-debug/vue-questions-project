@@ -278,7 +278,13 @@ export default {
     return state;
   },
   mounted() {
-    this.fetchSubjects();
+    this.$nextTick(() => {
+      const isAdmin = this.$store.getters.isAdmin;
+      if (!isAdmin) {
+        this.$router.push("/admin-login");
+      }
+      this.fetchSubjects();
+    });
   },
   watch: {
     tickets(to, from) {
