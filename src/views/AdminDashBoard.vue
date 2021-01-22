@@ -17,7 +17,7 @@
               <div class="info-icon">
                 <i class="fa fa-book fa-lg text-red-1 " aria-hidden="true"></i>
               </div>
-              <div class="sale-num">
+              <div class="sale-num mx-3">
                 <h5 class="text-danger">Add Passages</h5>
                 <!-- <p>Orders</p> -->
               </div>
@@ -33,7 +33,7 @@
                   aria-hidden="true"
                 ></i>
               </div>
-              <div class="sale-num">
+              <div class="sale-num mx-3 hover:text-white">
                 <h5 class="text-danger">Subjects</h5>
               </div>
             </div>
@@ -135,7 +135,7 @@ export default {
 }
 .icons:hover,
 .icons p:hover {
-  background-color: rgb(196, 192, 192);
+  background-color: rgb(172, 168, 168);
   text-decoration: none;
 }
 

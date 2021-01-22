@@ -1,35 +1,48 @@
 <template>
-  <div class="container">
-    <h1 class="h3 font-weight-bold">Subjects</h1>
+  <div class="jumbotron h-screen">
+    <h3 class="styled">Subjects</h3>
 
-    <ul class="list-group my-5">
-      <li
-        class="list-group-item text-justify btn-light"
-        v-for="(subject, index) in subjects"
-        v-bind:key="index"
-      >
-        <router-link
-          :to="{ name: 'all-passages', params: { subjectid: subject._id } }"
-        >
-          {{ subject.name }}</router-link
-        >
-        <span class="float-right">
-          <button class="btn btn-danger" @click="handleDelete(subject._id)">
-            Delete
-          </button></span
-        >
-      </li>
-    </ul>
+    <div class="container">
+      <div class=" col-12 my-5">
+        <div class="list-group text-justify">
+          <router-link
+            :to="{ name: 'all-passages', params: { subjectid: subject._id } }"
+            href="#"
+            class="list-group-item list-group-item-action"
+            v-for="(subject, index) in subjects"
+            v-bind:key="index"
+          >
+            {{ subject.name }}
+            <span class="float-right">
+              <button
+                class="btn btn-danger btn-sm"
+                @click="handleDelete(subject._id)"
+              >
+                Delete
+              </button></span
+            >
+          </router-link>
+        </div>
+      </div>
 
-    <div class="form-group">
-      <input
-        type="text"
-        name="subject"
-        class="form-control"
-        v-model="subject"
-      />
+      <div class="form-group mx-sm-3 mb-3 row">
+        <label for="inputPassword2" class="sr-only">Enter Subject</label>
+        <input
+          type="text"
+          class="form-control col-8 form-control-sm"
+          id="inputPassword2"
+          placeholder="Enter Subject"
+          v-model="subject"
+        />
+        <button
+          type="submit"
+          class="btn btn-danger mb-2 col-4 btn-sm"
+          @click="addSubject"
+        >
+          Add Subject
+        </button>
+      </div>
     </div>
-    <button class="btn btn-danger" @click="addSubject">Add Subject</button>
   </div>
 </template>
 

@@ -1,45 +1,48 @@
 <template>
-  <div>
-    <h3 class="h3 my-5">{{ subject }}</h3>
-    <table class="table">
-      <thead>
-        <th>S/N</th>
-        <th>Name</th>
-        <th>Add Images</th>
-        <th></th>
-      </thead>
-      <tbody>
-        <tr v-for="(passage, index) in passages" v-bind:key="index">
-          <td>{{ index + 1 }}</td>
-          <!-- <td class="text-info">
-            <router-link
-              :to="{ name: 'student-result', params: { id: user._id } }"
-              >{{ user.name }}</router-link
-            > 
-          </td> -->
-          <td>{{ passage.passagename }}</td>
-          <td>
-            <input
-              type="file"
-              name="image"
-              :id="`id_${passage._id}`"
-              multiple
-            />
-            <button
-              class="btn btn-success"
-              @click="uploadImagesForPassage(passage._id)"
-            >
-              Add
-            </button>
-          </td>
-          <td>
-            <button class="btn btn-danger" @click="handleDelete(passage._id)">
-              Delete
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="jumbotron h-screen">
+    <div class="container">
+      <h3 class="styled my-5">{{ subject }}</h3>
+      <div class="table-container">
+        <div class="table-responsive">
+          <table class="table custom-table m-0">
+            <thead>
+              <th>S/N</th>
+              <th>Name</th>
+              <th>Add Images</th>
+              <th></th>
+            </thead>
+            <tbody>
+              <tr v-for="(passage, index) in passages" v-bind:key="index">
+                <td>{{ index + 1 }}</td>
+                <td>{{ passage.passagename }}</td>
+                <td>
+                  <input
+                    type="file"
+                    name="image"
+                    :id="`id_${passage._id}`"
+                    multiple
+                  />
+                  <button
+                    class="btn btn-success"
+                    @click="uploadImagesForPassage(passage._id)"
+                  >
+                    Add
+                  </button>
+                </td>
+                <td>
+                  <button
+                    class="btn btn-danger"
+                    @click="handleDelete(passage._id)"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>

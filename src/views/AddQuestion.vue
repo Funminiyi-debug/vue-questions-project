@@ -1,75 +1,78 @@
 <template>
-  <div id="app">
-    <div class="container-responsive">
+  <div id="app" class="jumbotron h-screen">
+    <div class="container-responsive container">
       <div class="container">
-        <h4 class="h4 font-weight-bold">Add Passage</h4>
-        Upload the passages and questions in the approved format
-        <hr class="hr" />
-        <br /><br />
-        <div class="form-control-group m-auto">
-          <label for="subjects" class="m-auto font-weight-bold"
-            >Select Subject</label
-          >
-          <select
-            name="Subjects"
-            id="subjects"
-            class="option px-3 m-auto border"
-            v-model="subject"
-            required
-          >
-            <!-- <option selected>Open this select menu</option> -->
+        <h3 class="styled">Add Passage</h3>
 
-            <option
-              v-for="(subject, index) of subjects"
-              :value="subject"
-              v-bind:key="index"
-            >
-              {{ subject.name }}</option
-            >
-          </select>
+        <div class="card-title">
+          Upload the passages and questions in the approved format
         </div>
-        <br /><br />
-        <button
-          class="btn btn-danger border-radius-none col-3 my-3"
-          @click="submit"
-        >
-          Submit
-        </button>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div
-            id="drop"
-            @drop="handleDrop"
-            @dragover="handleDragover"
-            @dragenter="handleDragover"
+        <hr class="hr" />
+        <label for="">Subject</label>
+        <div class="row gutters col-12">
+          <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12 m-auto">
+            <div class="form-group">
+              <select class="form-control form-control-sm" v-model="subject">
+                <option
+                  v-for="(subject, index) of subjects"
+                  :value="subject"
+                  v-bind:key="index"
+                >
+                  {{ subject.name }}</option
+                >
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <button
+            class="btn btn-danger btn-sm col-xl-4 col-lg col-md-4 col-sm-4 col-12 my-3 mr-4"
+            @click="submit"
           >
-            Drop Here
+            Submit
+          </button>
+        </div>
+      </div>
+      <div class="col-12 m-auto">
+        <div class="row bg-white">
+          <div class="col-md-12">
+            <div
+              id="drop"
+              @drop="handleDrop"
+              @dragover="handleDragover"
+              @dragenter="handleDragover"
+            >
+              Drop Here
+            </div>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
-          <table
-            class="table table-striped table-hover table-condensed table-responsive"
-          >
-            <thead>
-              <tr>
-                <th v-for="(item, index) in headers" v-bind:key="index">
-                  {{ item }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(item, index) in tickets" v-bind:key="index">
-                <td v-for="(key, index) in item" v-bind:key="index">
-                  <label>{{ key }}</label>
-                  <p>{{ item.key }}</p>
-                </td>
-              </tr>
-            </tbody>
-            <tfoot></tfoot>
-          </table>
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="table-container">
+              <div class="table-responsive">
+                <table class="table custom-table m-0">
+                  <thead>
+                    <tr>
+                      <th v-for="(item, index) in headers" v-bind:key="index">
+                        {{ item }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(item, index) in tickets" v-bind:key="index">
+                      <td v-for="(key, index) in item" v-bind:key="index">
+                        <label>{{ key }}</label>
+                        <p>{{ item.key }}</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot></tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -303,8 +306,10 @@ export default {
   }
 };
 </script>
-
+<style scoped></style>
 <style scoped>
+@import "../assets/css/main.css";
+@import url("../assets/fonts/style.css");
 .form-group label {
   font-weight: bold;
 }
@@ -319,3 +324,4 @@ export default {
   color: #bbb;
 }
 </style>
+<style scoped></style>
