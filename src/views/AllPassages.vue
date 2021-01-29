@@ -8,7 +8,8 @@
             <thead>
               <th>S/N</th>
               <th>Name</th>
-              <th>Add Images</th>
+              <th>Add Image</th>
+              <th>Add Title</th>
               <th></th>
             </thead>
             <tbody>
@@ -16,22 +17,38 @@
                 <td>{{ index + 1 }}</td>
                 <td>{{ passage.passagename }}</td>
                 <td>
-                  <input
-                    type="file"
-                    name="image"
-                    :id="`id_${passage._id}`"
-                    multiple
-                  />
-                  <button
-                    class="btn btn-success"
-                    @click="uploadImagesForPassage(passage._id)"
-                  >
-                    Add
-                  </button>
+                  <div class="form-group mx-sm-3 mb-3 row">
+                    <input
+                      type="file"
+                      name="image"
+                      :id="`image_${passage._id}`"
+                    />
+                  </div>
                 </td>
                 <td>
+                  <div class="form-group mx-sm-3 mb-3 row">
+                    <label for="inputPassword2" class="sr-only"
+                      >Enter Title</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control col-8 form-control-sm"
+                      :id="`title_${passage._id}`"
+                      placeholder="Enter Title"
+                    />
+                    <button
+                      type="submit"
+                      class="btn btn-info mb-2 col-4 btn-sm"
+                      @click="uploadImagesForPassage(passage._id)"
+                    >
+                      Add Subject
+                    </button>
+                  </div>
+                </td>
+
+                <td>
                   <button
-                    class="btn btn-danger"
+                    class="btn btn-danger btn-sm"
                     @click="handleDelete(passage._id)"
                   >
                     Delete
@@ -101,11 +118,13 @@ export default {
       this.passages = this.passages.filter(element => element._id != id);
     },
     async uploadImagesForPassage(id) {
-      const files = document.getElementById(`id_${id}`).files;
+      const file = document.getElementById(`image_${id}`).file;
+      const title = document.getElementById(`image_${id}`).value;
       const formData = new FormData();
-      for (let i = 0; i < files.length; i++) {
-        formData.append("passageImages", files[i]);
-      }
+      // for (let i = 0; i < files.length; i++) {
+      formData.append("passageImages", file);
+      formData.append("passageTitle", title);
+      // }
       try {
         const res = await axios({
           url: `${baseUrl}/passages/add-images/${id}`,
@@ -115,7 +134,7 @@ export default {
         });
 
         if (res.data.success == true) {
-          alert("Images Uploaded");
+          alert("Image Uploaded");
         }
       } catch (error) {
         console.log(error);
