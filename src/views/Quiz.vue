@@ -26,7 +26,7 @@
           </div>
         </div>
         <div
-          class="bg-red-2 border-b text-xs text-white border-white flex items-center px-2 justify-between"
+          class="second-layer border-b text-xs text-white border-white flex items-center px-2 justify-between"
         >
           <div class="flex">
             <div class="cursor-pointer">
@@ -38,6 +38,11 @@
               <i class="fas fa-pen"></i>
               <span v-on:click="strikethroughText">
                 <span class="pl-4 underline">Strikethrough</span></span
+              >
+            </div>
+            <div class="pl-8 flex items-center">
+              <span v-on:click="saveProgress">
+                <span class="pl-4 underline">Save Progress</span></span
               >
             </div>
           </div>
@@ -466,6 +471,23 @@ export default {
         return passage;
       });
       this.passages = testPassages;
+    },
+    saveProgress() {
+      // make separate route for saved progress
+      const request = {
+        name: this.userVisitedQuestions.username,
+        email: this.userVisitedQuestions.email,
+        subject: {
+          subject: this.$route.params.subjectid,
+          answers: this.userVisitedQuestions.questionsAnswered,
+          questionsAttempted: this.userVisitedQuestions.questionsAnswered,
+          activeQuestion: this.activeQuestion,
+          activePassage: this.activePassage,
+          counter: (this.userVisitedQuestions.timeTaken = this.counter)
+        }
+      };
+
+      // api call goes here
     }
   }
 };
@@ -489,6 +511,10 @@ export default {
 }
 .underline {
   cursor: pointer;
+}
+
+.second-layer {
+  background-color: rgb(21, 184, 184);
 }
 
 .window {

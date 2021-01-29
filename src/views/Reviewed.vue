@@ -36,7 +36,7 @@
           </div>
         </div>
         <div
-          class="bg-red-2 border-b text-xs text-white border-white flex items-center px-2 justify-between"
+          class="second-layer border-b text-xs text-white border-white flex items-center px-2 justify-between"
         >
           <div class="flex">
             <div class="cursor-pointer">
@@ -283,6 +283,9 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=PT+Serif&display=swap");
+.second-layer {
+  background-color: rgb(21, 184, 184);
+}
 .bottom-bar {
   position: fixed;
   bottom: 0;

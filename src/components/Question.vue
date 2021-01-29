@@ -1,16 +1,16 @@
 <template>
   <div class="bg-white mx-1 px-4 h-full overflow-auto h-screen question-window">
-    <div class="font-bold text-lg pt-6 pb-2">
+    <div class="font-bold text-lg pt-6 pb-2 text-left">
       <img
         alt="Logo"
         src="../assets/brand-logo.png"
-        class="logo-1 m-auto my-3"
+        class="logo-1 m-auto my-3 text-left"
       />
 
       Question {{ activeQuestion + 1 }}
     </div>
     <div
-      class="pl-10"
+      class="pl-10 text-left mr-5"
       v-for="(section, index) in question.description.match(/[^\r\n]+/g)"
       v-bind:key="`question_${index}`"
     >
