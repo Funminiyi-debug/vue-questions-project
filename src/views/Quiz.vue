@@ -430,10 +430,21 @@ export default {
       this.$store.commit("userVisitedQuestions", this.userVisitedQuestions);
       this.$store.commit("passages", this.passages);
       this.$emit("addResults", request.subject);
+      // c headers: { "Content-Type": "multipart/form-data" }
+      try {
+        // await axios.post(, {
+        //   ...request
+        // }, head);
 
-      const res = await axios.post(`${baseUrl}/users/add-subject-to-user`, {
-        ...request
-      });
+        const res = await axios({
+          url: `${baseUrl}/users/add-subject-to-user`,
+          method: "POST",
+          data: request,
+          headers: { "Access-Control-Allow-Origin": "*" }
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     // strikethroughs and highlights
@@ -472,7 +483,7 @@ export default {
       });
       this.passages = testPassages;
     },
-    saveProgress() {
+    async saveProgress() {
       // make separate route for saved progress
       const request = {
         name: this.userVisitedQuestions.username,
@@ -488,6 +499,16 @@ export default {
       };
 
       // api call goes here
+      try {
+        const res = await axios({
+          url: `${baseUrl}/users/save-progress`,
+          method: "POST",
+          data: request
+          // headers: { "Access-Control-Allow-Origin": "*" }
+        });
+      } catch (error) {
+        // console.log(error);
+      }
     }
   }
 };
