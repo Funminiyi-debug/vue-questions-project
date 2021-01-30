@@ -97,6 +97,7 @@ export default {
         this.$router.push("/admin-login");
       }
       this.fetchUsers();
+      this.fetchSubjects();
     });
   },
   data() {
@@ -105,6 +106,17 @@ export default {
     };
   },
   methods: {
+    async fetchSubjects() {
+      try {
+        let res = await fetch(`${baseUrl}/subjects`);
+        this.handleError(res);
+        res = await res.json();
+        const allSubjects = [...res.subjects];
+        this.$store.commit("allSubjects", allSubjects);
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async fetchUsers() {
       try {
         const res = await axios.get(`${baseUrl}/users`);

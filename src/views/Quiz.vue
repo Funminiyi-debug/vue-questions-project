@@ -148,7 +148,7 @@ import Progressbar from "../components/Progressbar.vue";
 import Navigation from "../components/Navigation.vue";
 
 import { baseUrl } from "../api/routes";
-import allPassages from "../mock/data";
+// import allPassages from "../mock/data";
 import axios from "axios";
 
 export default {
@@ -268,7 +268,7 @@ export default {
         // res = await res.json();
         this.handleError(res);
 
-        this.passages = res.data.passages;
+        this.passages = res.data.response.passages;
       } catch (error) {
         console.error(error);
       }

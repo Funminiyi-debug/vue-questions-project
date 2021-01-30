@@ -42,7 +42,11 @@
                   </div>
                 </div>
                 <div class="actions mb-4">
-                  <button type="submit" class="btn bg-red-1 text-white">
+                  <button
+                    type="submit"
+                    class="btn bg-red-1 text-white"
+                    :disabled="disableButton"
+                  >
                     Login
                   </button>
                 </div>
@@ -90,7 +94,8 @@ export default {
       password: "",
       error: false,
       passages: [],
-      user: ""
+      user: "",
+      disableButton: false
     };
   },
   methods: {
@@ -131,6 +136,7 @@ export default {
     // submit user form
     async handleSubmit(e) {
       e.preventDefault();
+      this.disableButton = true;
       const newUser = {
         email: this.email,
         password: this.password
@@ -158,19 +164,15 @@ export default {
         res = await res.json();
         success = res.success;
         this.user = res.user;
-      } catch (error) {}
+      } catch (error) {
+        this.disableButton = false;
+      }
       return success;
     }
   }
 };
 </script>
 <style scoped>
-/* .background {
-  background-color: rgb(49, 49, 49);
-  margin: 0;
-  height: 100vh;
-  width: 100%;
-} */
 .logo {
   margin: 0 auto;
 }

@@ -62,12 +62,10 @@ export default {
         this.username == this.adminEmail &&
         this.password == this.adminPassword
       ) {
-        console.log(true);
         this.$store.commit("isAdmin", true);
         this.$router.push("/admin");
         return;
       } else {
-        console.log("condition was false");
         alert("Password or email is incorrect");
       }
     }

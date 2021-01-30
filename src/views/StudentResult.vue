@@ -26,7 +26,7 @@
           <tr v-for="(subject, index) in user.subjects" v-bind:key="index">
             <td>{{ index + 1 }}</td>
             <td class="text-info">
-              {{ subject.subject }}
+              {{ subject.subject.name }}
             </td>
             <td>{{ subject.score }}</td>
             <td>{{ subject.counter }}</td>
@@ -45,14 +45,24 @@ export default {
       user: {
         name: "",
         email: "",
-        subjects: []
+        subjects: [],
+        subjectName: ""
       }
     };
   },
   mounted() {
-    this.user = this.$store.getters.allUsers.find(
-      user => user._id == this.$route.params.id
-    );
+    this.$nextTick(() => {
+      this.user = this.$store.getters.allUsers.find(
+        user => user._id == this.$route.params.id
+      );
+      // this.subjects = this.user.subjects.map(subject => {
+      //   subject.name = this.$store.getters.allSubjects.find(
+      //     element => element._id == subject.subject
+      //   );
+
+      //   return subject;
+      // });
+    });
   },
   watch: {
     $route(to, from) {

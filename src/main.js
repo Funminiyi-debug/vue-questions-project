@@ -35,7 +35,8 @@ const getDefaultState = () => {
         score: 0
       }
     },
-    isAdmin: false
+    isAdmin: false,
+    allSubjects: []
   };
 };
 Vue.use(Vuex);
@@ -49,7 +50,8 @@ const store = new Vuex.Store({
     allUsers: state => state.allUsers,
     userVisitedQuestions: state => state.userVisitedQuestions,
     passages: state => state.passages,
-    isAdmin: state => state.isAdmin
+    isAdmin: state => state.isAdmin,
+    allSubjects: state => state.allSubjects
   },
   actions: {
     async logout() {
@@ -72,6 +74,9 @@ const store = new Vuex.Store({
     },
     getAllUsers(state, payload) {
       state.allUsers = [...payload];
+    },
+    getAllSubjects(state, payload) {
+      state.allSubjects = [...payload];
     },
     userVisitedQuestions(state, payload) {
       state.userVisitedQuestions = payload;
