@@ -8,7 +8,7 @@
       </div>
     </div>
     <!-- change this area later when network comes -->
-    <div class=" jumbotron" v-if="users.length > 0">
+    <div class=" container" v-if="users.length > 0">
       <h1 class="styled">Dashboard</h1>
       <div class="row gutters">
         <div class="col-md-6 col-sm-6 col-12">
@@ -118,6 +118,10 @@ export default {
       }
     },
     async fetchUsers() {
+      if (this.$store.getters.allUsers.length > 0) {
+        this.users = this.$store.getters.allUsers;
+        return;
+      }
       try {
         const res = await axios.get(`${baseUrl}/users`);
         this.$store.commit("getAllUsers", res.data.users);

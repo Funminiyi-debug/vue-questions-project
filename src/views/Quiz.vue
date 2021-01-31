@@ -491,7 +491,8 @@ export default {
           questionsAttempted: this.userVisitedQuestions.questionsAnswered,
           activeQuestion: this.activeQuestion,
           activePassage: this.activePassage,
-          counter: (this.userVisitedQuestions.timeTaken = this.counter)
+          counter: (this.userVisitedQuestions.timeTaken = this.counter),
+          progress: this.percentage
         }
       };
 

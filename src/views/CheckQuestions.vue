@@ -5,14 +5,16 @@
     <div class="container">
       <div class=" col-12 my-5">
         <div class="list-group text-justify">
-          <router-link
-            :to="{ name: 'all-passages', params: { subjectid: subject._id } }"
-            href="#"
+          <span
             class="list-group-item list-group-item-action"
             v-for="(subject, index) in subjects"
             v-bind:key="index"
           >
-            {{ subject.name }}
+            <router-link
+              :to="{ name: 'all-passages', params: { subjectid: subject._id } }"
+            >
+              {{ subject.name }}
+            </router-link>
             <span class="float-right">
               <button
                 class="btn btn-danger btn-sm"
@@ -21,7 +23,7 @@
                 Delete
               </button></span
             >
-          </router-link>
+          </span>
         </div>
       </div>
 
@@ -83,7 +85,7 @@ export default {
         this.fetchSubjects();
         this.subject = "";
       } catch (error) {
-        alert("Server error");
+        // alert("Server error");
         console.log(error);
       }
     },

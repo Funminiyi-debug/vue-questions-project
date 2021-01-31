@@ -44,9 +44,9 @@
         <div class="pl-12 m-auto">
           <img :alt="`${image.name}`" :src="returnImage(image.data)" />
         </div>
-        <div class="pb-2">
+        <div class="pb-2 mb-2">
           <span class="text-sm">Figure {{ index + 1 }}</span>
-          {{ image.name.substring(0, image.name.lastIndexOf(".")) }}
+          {{ image.name }}
         </div>
       </div>
       <!-- </div> -->

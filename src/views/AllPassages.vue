@@ -1,5 +1,5 @@
 <template>
-  <div class="jumbotron h-screen">
+  <div class=" h-screen">
     <div class="container">
       <h3 class="styled my-5">{{ subject }}</h3>
       <div class="table-container">
@@ -17,11 +17,12 @@
                 <td>{{ index + 1 }}</td>
                 <td>{{ passage.passagename }}</td>
                 <td>
-                  <div class="form-group mx-sm-3 mb-3 row">
+                  <div class="mb-3">
                     <input
+                      class="form-control form-control-sm"
                       type="file"
-                      name="image"
                       :id="`image_${passage._id}`"
+                      accept=".jpg, .jpeg, .png"
                     />
                   </div>
                 </td>
@@ -32,21 +33,21 @@
                     >
                     <input
                       type="text"
-                      class="form-control col-8 form-control-sm"
+                      class="form-control form-control-sm"
                       :id="`title_${passage._id}`"
-                      placeholder="Enter Title"
+                      placeholder="Enter Image Title"
                     />
-                    <button
-                      type="submit"
-                      class="btn btn-info mb-2 col-4 btn-sm"
-                      @click="uploadImagesForPassage(passage._id)"
-                    >
-                      Add Subject
-                    </button>
                   </div>
                 </td>
 
                 <td>
+                  <button
+                    type="submit"
+                    class="btn btn-info btn-sm mx-2"
+                    @click="uploadImagesForPassage(passage._id)"
+                  >
+                    Add Image
+                  </button>
                   <button
                     class="btn btn-danger btn-sm"
                     @click="handleDelete(passage._id)"
@@ -94,7 +95,7 @@ export default {
         const res = await axios.get(
           `${baseUrl}/passages/get-by-subject/${this.$route.params.subjectid}`
         );
-        this.passages = [...res.data.passages];
+        this.passages = [...res.data.response.passages];
       } catch (error) {
         console.log(error);
       }
@@ -118,8 +119,16 @@ export default {
       this.passages = this.passages.filter(element => element._id != id);
     },
     async uploadImagesForPassage(id) {
-      const file = document.getElementById(`image_${id}`).file;
-      const title = document.getElementById(`image_${id}`).value;
+      let titleElement = document.getElementById(`title_${id}`);
+      let fileElement = document.getElementById(`image_${id}`);
+
+      let title = titleElement.value;
+
+      if (fileElement.files.length == 0 || title == "") {
+        alert("Please fill in all fields");
+        return;
+      }
+      let file = fileElement.files[0];
       const formData = new FormData();
       // for (let i = 0; i < files.length; i++) {
       formData.append("passageImages", file);
@@ -135,9 +144,14 @@ export default {
 
         if (res.data.success == true) {
           alert("Image Uploaded");
+          title = "";
+          // fileElement.files = [];
         }
       } catch (error) {
+        alert("Server error. Please try again");
         console.log(error);
+        title = "";
+        // fileElement.files = [];
       }
     }
   }
