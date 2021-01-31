@@ -109,10 +109,10 @@ export default {
     async fetchSubjects() {
       try {
         let res = await fetch(`${baseUrl}/subjects`);
-        this.handleError(res);
+        // this.handleError(res);
         res = await res.json();
         const allSubjects = [...res.subjects];
-        this.$store.commit("allSubjects", allSubjects);
+        // this.$store.commit("allSubjects", allSubjects);
       } catch (error) {
         console.log(error);
       }

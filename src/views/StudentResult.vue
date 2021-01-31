@@ -28,7 +28,7 @@
             <td class="text-info">
               {{ subject.subject.name }}
             </td>
-            <td>{{ subject.score }}</td>
+            <td>{{ subject.score.toFixed(2) }}</td>
             <td>{{ subject.counter }}</td>
           </tr>
         </tbody>

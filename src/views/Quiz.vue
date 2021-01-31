@@ -430,18 +430,15 @@ export default {
       this.$store.commit("userVisitedQuestions", this.userVisitedQuestions);
       this.$store.commit("passages", this.passages);
       this.$emit("addResults", request.subject);
-      // c headers: { "Content-Type": "multipart/form-data" }
       try {
-        // await axios.post(, {
-        //   ...request
-        // }, head);
-
         const res = await axios({
           url: `${baseUrl}/users/add-subject-to-user`,
           method: "POST",
           data: request,
           headers: { "Access-Control-Allow-Origin": "*" }
         });
+
+        console.log(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -506,6 +503,7 @@ export default {
           data: request
           // headers: { "Access-Control-Allow-Origin": "*" }
         });
+        console.log(res.data);
       } catch (error) {
         // console.log(error);
       }
