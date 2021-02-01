@@ -1,7 +1,46 @@
 <template>
   <div id="app" class="jumbotron h-screen">
     <div class="container-responsive container">
-      <div class="container">
+      <nav
+        class="navbar navbar-expand-lg rounded navbar-dark bg-dark sticky-top"
+      >
+        <div class="container-fluid">
+          <router-link class="navbar-brand text-capitalize" to="/admin"
+            >Shemmasian</router-link
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <router-link to="/admin/add-question" class="nav-link active"
+                  >Add Passage</router-link
+                >
+              </li>
+              <li class="nav-item">
+                <router-link to="/admin/students" class="nav-link "
+                  >Students</router-link
+                >
+              </li>
+              <li class="nav-item">
+                <router-link to="/admin/check-questions" class="nav-link "
+                  >Subjects</router-link
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div class="container mt-3">
         <h3 class="styled">Add Passage</h3>
 
         <div class="card-title">
@@ -322,6 +361,9 @@ export default {
   text-align: center;
   font: 20pt bold, "Vollkorn";
   color: #bbb;
+}
+.navbar {
+  margin-top: -2rem;
 }
 </style>
 <style scoped></style>

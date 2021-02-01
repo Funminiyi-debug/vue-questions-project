@@ -12,6 +12,7 @@ import AllPassages from "../views/AllPassages.vue";
 import NotFound from "../views/NotFound.vue";
 import AdminLogin from "../views/AdminLogin";
 import Intro from "../views/Intro";
+import StudentsList from "../views/StudentsList";
 Vue.use(VueRouter);
 
 const routes = [
@@ -51,6 +52,11 @@ const routes = [
     path: "/admin/all-passages/:subjectid",
     name: "all-passages",
     component: AllPassages
+  },
+  {
+    path: "/admin/students",
+    name: "Students",
+    component: StudentsList
   },
   {
     path: "/admin-login",
