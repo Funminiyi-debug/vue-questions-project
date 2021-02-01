@@ -36,7 +36,9 @@ const getDefaultState = () => {
       }
     },
     isAdmin: false,
-    allSubjects: []
+    allSubjects: [],
+    chooseProgress: false,
+    progress: {}
   };
 };
 Vue.use(Vuex);
@@ -51,7 +53,9 @@ const store = new Vuex.Store({
     userVisitedQuestions: state => state.userVisitedQuestions,
     passages: state => state.passages,
     isAdmin: state => state.isAdmin,
-    allSubjects: state => state.allSubjects
+    allSubjects: state => state.allSubjects,
+    chooseProgress: state => state.chooseProgress,
+    progress: state => state.progress
   },
   actions: {
     async logout() {
@@ -86,6 +90,12 @@ const store = new Vuex.Store({
     },
     isAdmin(state, payload) {
       state.isAdmin = true;
+    },
+    addChoiceProgress(state, payload) {
+      state.chooseProgress = payload;
+    },
+    addProgress(state, payload) {
+      state.progress = payload;
     }
   },
   plugins: [

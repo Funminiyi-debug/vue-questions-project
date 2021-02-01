@@ -13,9 +13,15 @@ import NotFound from "../views/NotFound.vue";
 import AdminLogin from "../views/AdminLogin";
 import Intro from "../views/Intro";
 import StudentsList from "../views/StudentsList";
+import ChooseExam from "../views/ChooseExam";
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: "/choose-exam",
+    name: "choose-exam",
+    component: ChooseExam
+  },
   {
     path: "/home/:subjectid",
     name: "Home",

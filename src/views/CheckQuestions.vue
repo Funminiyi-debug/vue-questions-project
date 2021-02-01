@@ -47,7 +47,7 @@
             <thead>
               <th>S/N</th>
               <th>Name</th>
-              <th>Percentage Correct</th>
+              <th>Average Score</th>
               <th>Average Time Taken</th>
             </thead>
             <tbody>
@@ -67,7 +67,7 @@
                   {{ subject.scores }}
                 </td>
                 <td>
-                  time
+                  {{ subject.timeTaken }}
                 </td>
                 <td>
                   <span class="float-right">

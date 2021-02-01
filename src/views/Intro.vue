@@ -1,6 +1,6 @@
 <template
   ><div class="body">
-    <div class="authentication" v-if="subjects.length > 0">
+    <div class="authentication">
       <form @submit="handleSubmit" enctype="application/json" class="container">
         <div class="row justify-content-md-center">
           <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
@@ -37,27 +37,12 @@
                     required
                   />
                 </div>
-                <div>
-                  <div class="form-group">
-                    <select class="form-control" v-model="subject">
-                      <option
-                        v-for="(subject, index) of subjects"
-                        :value="subject"
-                        v-bind:key="index"
-                      >
-                        {{ subject.name }}</option
-                      >
-                    </select>
-                  </div>
-                </div>
+
                 <div class="actions mb-4">
                   <button type="submit" class="btn bg-red-1 text-white">
                     Register and Start Quiz
                   </button>
                 </div>
-                <!-- <div class="forgot-pwd">
-                  <a class="link" href="forgot-pwd.html">Forgot password?</a>
-                </div> -->
                 <hr />
                 <div class="actions align-left">
                   <span class="additional-link">Have an Account?</span>
@@ -67,15 +52,7 @@
             </div>
           </div>
         </div>
-        <!-- </div> -->
       </form>
-    </div>
-    <div v-if="subjects.length == 0">
-      <div class="text-center">
-        <div class="spinner-border">
-          <span class="sr-only">Loading...</span>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -85,33 +62,16 @@ import { baseUrl } from "../api/routes";
 import axios from "axios";
 export default {
   name: "intro-screen",
-  async created() {
-    await this.fetchSubjects();
-  },
   data() {
     return {
-      subjects: [],
       name: "",
       email: "",
-      subject: "",
       password: "",
       error: false,
-      passages: [],
       user: ""
     };
   },
   methods: {
-    async fetchSubjects() {
-      try {
-        let res = await fetch(`${baseUrl}/subjects`);
-        this.handleError(res);
-        res = await res.json();
-        this.subjects = [...res.subjects];
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    // handle error functiono
     handleError(error) {
       if (error.status == 409) {
         alert("Oops! User already exist");
@@ -121,6 +81,11 @@ export default {
         alert("Server Error, please try again");
         return;
       }
+
+      if (error.status == 401) {
+        alert("Password or username incorrect");
+      }
+
       if (error.status == 400) {
         alert("Ensure all fields are filled");
         return;
@@ -129,36 +94,39 @@ export default {
         alert("not found");
       }
     },
-
     // submit user form
     async handleSubmit(e) {
       e.preventDefault();
+      this.disableButton = true;
+
       const newUser = {
         name: this.name,
         email: this.email,
         password: this.password
       };
-      const success = await this.addUser(newUser);
-
-      if (success) {
-        return this.$router.push(`Home/${this.subject._id}`);
-      }
+      this.addUser(newUser);
       return;
     },
     // add user function
     async addUser(user) {
       let success = false;
-      console.log("sending user");
-      try {
-        let res = await axios.post(`${baseUrl}/register`, {
+      await axios
+        .post(`${baseUrl}/register`, {
           ...user
+        })
+        .then(res => {
+          this.user = res.data.user;
+          success = res.success;
+          this.disableButton = false;
+          this.$emit("user", this.user);
+          return this.$router.push(`/choose-exam`);
+        })
+        .catch(err => {
+          console.log(err);
+          this.disableButton = false;
+          this.handleError(err);
         });
-        this.handleError(res);
-        success = res.data.success;
-        this.user = res.data.user;
-      } catch (error) {
-        console.log(error);
-      }
+
       return success;
     }
   }

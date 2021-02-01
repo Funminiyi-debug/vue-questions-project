@@ -163,7 +163,23 @@ export default {
     this.fetchPassages(this.$route.params.subjectid);
   },
   mounted() {
-    this.startTimer();
+    this.$nextTick(() => {
+      // if (this.user == "") {
+      //   return this.$router.push(`/`);
+      // }
+      this.startTimer();
+      const startProgress = this.$store.getters.chooseProgress;
+      const progress = this.$store.getters.progress;
+      if (startProgress) {
+        this.activeQuestion = progress.activeQuestion;
+        this.activePassage = progress.activePassage;
+        this.userVisitedQuestions.questionsAnswered = progress.answers;
+        this.userVisitedQuestions.questionsAttempted =
+          progress.questionsAttempted;
+
+        this.seconds = this.getSecondsFromTimer(progress.counter);
+      }
+    });
   },
   destroyed() {
     this.saveData();
@@ -249,6 +265,14 @@ export default {
   },
 
   methods: {
+    getSecondsFromTimer(timer) {
+      const array = timer.split(":");
+      const payload = array.map(element => parseInt(element));
+      const hours = payload[0] * 60 * 60;
+      const mins = payload[1] * 60;
+      const seconds = payload[2];
+      return hours + mins + seconds;
+    },
     getHistory() {
       const history = localStorage.getItem(
         `userData_${this.userVisitedQuestions.username}`
@@ -361,7 +385,9 @@ export default {
     // questions viewed
     handleQuestionViewed() {
       const hasBeenViewed = this.userVisitedQuestions.questionsAttempted.find(
-        value => value._id == this.currentQuestion._id
+        value => {
+          return value._id == this.currentQuestion._id;
+        }
       );
 
       if (!hasBeenViewed) {
@@ -423,7 +449,7 @@ export default {
           subject: this.$route.params.subjectid,
           score: this.userVisitedQuestions.score,
           answers: this.userVisitedQuestions.questionsAnswered,
-          counter: (this.userVisitedQuestions.timeTaken = this.counter)
+          counter: this.counter
         }
       };
 
@@ -491,7 +517,7 @@ export default {
           questionsAttempted: this.userVisitedQuestions.questionsAnswered,
           activeQuestion: this.activeQuestion,
           activePassage: this.activePassage,
-          counter: (this.userVisitedQuestions.timeTaken = this.counter),
+          counter: this.counter,
           progress: this.percentage
         }
       };

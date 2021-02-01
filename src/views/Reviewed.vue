@@ -214,7 +214,7 @@ export default {
     async fetchPassages(id) {
       try {
         let res = await axios.get(`${baseUrl}/passages/get-by-subject/${id}`);
-        this.passages = res.data.passages;
+        this.passages = res.data.response.passages;
       } catch (error) {
         console.error(error);
       }

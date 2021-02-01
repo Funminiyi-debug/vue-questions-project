@@ -1,6 +1,6 @@
 <template>
   <div class="body">
-    <div class="authentication" v-if="subjects.length > 0">
+    <div class="authentication">
       <form @submit="handleSubmit" enctype="application/json" class="container">
         <div class="row justify-content-md-center">
           <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
@@ -28,19 +28,7 @@
                     required
                   />
                 </div>
-                <div>
-                  <div class="form-group">
-                    <select class="form-control" v-model="subject">
-                      <option
-                        v-for="(subject, index) of subjects"
-                        :value="subject"
-                        v-bind:key="index"
-                      >
-                        {{ subject.name }}</option
-                      >
-                    </select>
-                  </div>
-                </div>
+                <div></div>
                 <div class="actions mb-4">
                   <button
                     type="submit"
@@ -64,75 +52,33 @@
         </div>
       </form>
     </div>
-    <div v-if="subjects.length == 0">
-      <div class="text-center my-5">
-        <div class="spinner-border">
-          <span class="sr-only">Loading...</span>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
 import { baseUrl } from "../api/routes";
 import Navigation from "../components/Navigation.vue";
-
+import axios from "axios";
 export default {
   name: "login-screen",
-  async created() {
-    await this.fetchSubjects();
-  },
+
   components: {
     Navigation
   },
   data() {
     return {
-      subjects: [],
       email: "",
-      subject: "",
       password: "",
       error: false,
-      passages: [],
       user: "",
       disableButton: false
     };
   },
   methods: {
-    async fetchSubjects() {
-      try {
-        let res = await fetch(`${baseUrl}/subjects`);
-        this.handleError(res);
-        res = await res.json();
-        this.subjects = [...res.subjects];
-      } catch (error) {
-        console.log(error);
-      }
-    },
     // handle error function
-    handleError(error) {
-      if (error.status == 409) {
-        alert("Oops! User already exist");
-        return;
-      }
-      if (error.status == 500) {
-        alert("Server Error, please try again");
-        return;
-      }
-
-      if (error.status == 401) {
-        alert("Password or username incorrect");
-      }
-
-      if (error.status == 400) {
-        alert("Ensure all fields are filled");
-        return;
-      }
-      if (error.status == 404) {
-        alert("not found");
-      }
+    handleError(err) {
+      alert(err.message);
     },
-
     // submit user form
     async handleSubmit(e) {
       e.preventDefault();
@@ -141,32 +87,33 @@ export default {
         email: this.email,
         password: this.password
       };
-      const success = await this.addUser(newUser);
+      this.addUser(newUser);
 
-      if (success) {
-        this.$emit("user", this.user);
-        return this.$router.push(`Home/${this.subject._id}`);
-      }
       return;
     },
     // add user function
     async addUser(user) {
       let success = false;
-      try {
-        let res = await fetch(`${baseUrl}/login`, {
-          method: "post",
-          body: JSON.stringify(user),
-          headers: {
-            "Content-Type": "application/json"
-          }
+      await axios({
+        url: `${baseUrl}/login`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        data: user
+      })
+        .then(res => {
+          this.user = res.data.user;
+          success = res.success;
+          this.disableButton = false;
+          this.$emit("user", this.user);
+          return this.$router.push(`/choose-exam`);
+        })
+        .catch(err => {
+          console.log(err);
+          this.disableButton = false;
+          this.handleError(err);
         });
-        this.handleError(res);
-        res = await res.json();
-        success = res.success;
-        this.user = res.user;
-      } catch (error) {
-        this.disableButton = false;
-      }
       return success;
     }
   }
