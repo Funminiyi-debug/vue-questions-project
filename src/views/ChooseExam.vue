@@ -12,7 +12,7 @@
                 <h5>
                   Hi <span class="text-red-1">{{ user.name }}</span>
                 </h5>
-                <div v-if="user.subjectsSaved > 0">
+                <div v-if="user.subjectsSaved.length > 0">
                   <h5 class="h5">Continue where you left off</h5>
                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="table-container">
@@ -49,7 +49,8 @@
                 </div>
                 <div>
                   <h5 class="h5">
-                    <span v-if="user.subjectsSaved > 0">or</span> Start New Exam
+                    <span v-if="user.subjectsSaved.length > 0">or</span> Start
+                    New Exam
                   </h5>
 
                   <div class="form-group">
@@ -95,9 +96,10 @@ import axios from "axios";
 
 export default {
   name: "choose-exam",
+  created() {},
   mounted() {
     this.$nextTick(async () => {
-      await this.fetchSubjects();
+      this.fetchSubjects();
       this.user = this.$store.getters.user;
       // await this.fetchSubjectsForPassages();
     });
