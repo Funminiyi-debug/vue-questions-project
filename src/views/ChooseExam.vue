@@ -12,7 +12,7 @@
                 <h5>
                   Hi <span class="text-red-1">{{ user.name }}</span>
                 </h5>
-                <div v-if="user.subjectsSaved > 0">
+                <div>
                   <h5 class="h5">Continue where you left off</h5>
                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="table-container">
@@ -51,6 +51,7 @@
                   <h5 class="h5">
                     <span v-if="user.subjectsSaved > 0">or</span> Start New Exam
                   </h5>
+
                   <div class="form-group">
                     <select class="form-control" v-model="subject" required>
                       <option
@@ -90,16 +91,15 @@
 <script>
 import { baseUrl } from "../api/routes";
 import Navigation from "../components/Navigation.vue";
+import axios from "axios";
 
 export default {
   name: "choose-exam",
   mounted() {
-    this.$nextTick(() => {
-      //   if (this.user == "") {
-      //     return this.$router.push(`/`);
-      //   }
-      this.fetchSubjects();
+    this.$nextTick(async () => {
+      await this.fetchSubjects();
       this.user = this.$store.getters.user;
+      // await this.fetchSubjectsForPassages();
     });
   },
   components: {
@@ -116,6 +116,23 @@ export default {
     };
   },
   methods: {
+    async fetchSubjectsForPassages() {
+      this.subjects.map(item => {
+        return this.fetchPassagesForSubject(item);
+      });
+    },
+    async fetchPassagesForSubject(subject) {
+      try {
+        let res = await axios.get(
+          `${baseUrl}/passages/get-by-subject/${subject._id}?count=true`
+        );
+        console.log(res.data.response.passages);
+        return res.data.response.passages;
+      } catch (error) {
+        console.log(error);
+        return [];
+      }
+    },
     async fetchSubjects() {
       try {
         let res = await fetch(`${baseUrl}/subjects`);
