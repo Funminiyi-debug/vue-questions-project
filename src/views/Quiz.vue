@@ -42,7 +42,9 @@
             </div>
             <div class="pl-8 flex items-center">
               <span v-on:click="saveProgress">
-                <span class="pl-4 underline">Save Progress</span></span
+                <span class="pl-4 underline"
+                  >Save Progress and Logout</span
+                ></span
               >
             </div>
           </div>
@@ -530,8 +532,9 @@ export default {
           data: request
           // headers: { "Access-Control-Allow-Origin": "*" }
         });
-        console.log(res.data);
+        this.$router.push("/");
       } catch (error) {
+        this.$router.push("/");
         // console.log(error);
       }
     }

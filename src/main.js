@@ -59,11 +59,15 @@ const store = new Vuex.Store({
   },
   actions: {
     async logout() {
-      const res = await axios.post(`${baseUrl}/logout`);
-      localStorage.clear();
-      this.commit("resetState");
-      alert("log out successful");
-      this.$route.push("/login");
+      try {
+        const res = await axios.post(`${baseUrl}/logout`);
+        localStorage.clear();
+        this.commit("resetState");
+        alert("log out successful");
+        this.$route.push("/");
+      } catch (error) {
+        console.log(error);
+      }
     }
   },
   mutations: {

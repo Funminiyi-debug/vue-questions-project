@@ -15,8 +15,6 @@
 </template>
 
 <script>
-import { baseUrl } from "../api/routes";
-import axios from "axios";
 export default {
   name: "End",
   props: ["results"],
