@@ -93,6 +93,7 @@
 import { baseUrl } from "../api/routes";
 import Navigation from "../components/Navigation.vue";
 import axios from "axios";
+import handleError from "../mock/handleError";
 
 export default {
   name: "choose-exam",
@@ -132,42 +133,20 @@ export default {
         return res.data.response.passages;
       } catch (error) {
         console.log(error);
+        handleError(error);
         return [];
       }
     },
     async fetchSubjects() {
-      try {
-        let res = await fetch(`${baseUrl}/subjects`);
-        this.handleError(res);
-        res = await res.json();
-        this.subjects = [...res.subjects];
-      } catch (error) {
-        console.log(error);
-      }
+      await axios
+        .get(`${baseUrl}/subjects`)
+        .then(res => {
+          this.subjects = [...res.data.subjects];
+        })
+        .catch(err => handleError(err));
     },
     // handle error function
-    handleError(error) {
-      if (error.status == 409) {
-        alert("Oops! User already exist");
-        return;
-      }
-      if (error.status == 500) {
-        alert("Server Error, please try again");
-        return;
-      }
-
-      if (error.status == 401) {
-        alert("Password or username incorrect");
-      }
-
-      if (error.status == 400) {
-        alert("Ensure all fields are filled");
-        return;
-      }
-      if (error.status == 404) {
-        alert("not found");
-      }
-    },
+    handleError: handleError,
 
     // submit user form
     async handleSubmit(e) {

@@ -59,6 +59,7 @@
 import { baseUrl } from "../api/routes";
 import Navigation from "../components/Navigation.vue";
 import axios from "axios";
+import handleError from "../mock/handleError";
 export default {
   name: "login-screen",
 
@@ -76,9 +77,7 @@ export default {
   },
   methods: {
     // handle error function
-    handleError(err) {
-      alert(err.message);
-    },
+    handleError: handleError,
     // submit user form
     async handleSubmit(e) {
       e.preventDefault();
@@ -110,8 +109,8 @@ export default {
           return this.$router.push(`/choose-exam`);
         })
         .catch(err => {
-          console.log(err);
           this.disableButton = false;
+
           this.handleError(err);
         });
       return success;

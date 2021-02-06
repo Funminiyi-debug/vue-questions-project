@@ -93,6 +93,7 @@
 <script>
 import axios from "axios";
 import { baseUrl } from "../api/routes";
+import handleError from "../mock/handleError";
 
 export default {
   name: "Admin",
@@ -113,15 +114,16 @@ export default {
     };
   },
   methods: {
+    handleError: handleError,
     async fetchMetrics() {
       await axios
         .get(`${baseUrl}/dashboard/metrics`)
         .then(res => {
-          console.log(res.data.response);
           this.metrics = res.data.response;
         })
         .catch(err => {
           console.log(err);
+          this.handleError(err);
         });
     }
   }

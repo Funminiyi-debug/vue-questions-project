@@ -60,6 +60,7 @@
 <script>
 import { baseUrl } from "../api/routes";
 import axios from "axios";
+import handleError from "../mock/handleError";
 export default {
   name: "intro-screen",
   data() {
@@ -72,28 +73,7 @@ export default {
     };
   },
   methods: {
-    handleError(error) {
-      if (error.status == 409) {
-        alert("Oops! User already exist");
-        return;
-      }
-      if (error.status == 500) {
-        alert("Server Error, please try again");
-        return;
-      }
-
-      if (error.status == 401) {
-        alert("Password or username incorrect");
-      }
-
-      if (error.status == 400) {
-        alert("Ensure all fields are filled");
-        return;
-      }
-      if (error.status == 404) {
-        alert("not found");
-      }
-    },
+    handleError: handleError,
     // submit user form
     async handleSubmit(e) {
       e.preventDefault();
@@ -110,20 +90,25 @@ export default {
     // add user function
     async addUser(user) {
       let success = false;
-      await axios
-        .post(`${baseUrl}/register`, {
-          ...user
-        })
+      await axios({
+        url: `${baseUrl}/register`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        data: user
+      })
         .then(res => {
           this.user = res.data.user;
           success = res.success;
           this.disableButton = false;
           this.$emit("user", this.user);
+          console.log(res.data.user);
           return this.$router.push(`/choose-exam`);
         })
         .catch(err => {
-          console.log(err);
           this.disableButton = false;
+          console.log(err);
           this.handleError(err);
         });
 

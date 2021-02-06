@@ -50,8 +50,8 @@ export default {
     return {
       username: "",
       password: "",
-      adminPassword: "$elephantslovetoridedonkeys504",
-      adminEmail: "superadmin123"
+      adminPassword: process.env.VUE_APP_ADMIN_PASSWORD,
+      adminEmail: process.env.VUE_APP_ADMIN_USERNAME
     };
   },
   methods: {
