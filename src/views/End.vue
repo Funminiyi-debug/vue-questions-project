@@ -1,6 +1,6 @@
 <template>
   <div class="jumbotron">
-    this is the end screen Quiz ended!! <br /><br />
+    Quiz Finished <br /><br />
 
     Score:
     <div class="btn btn-light btn-lg my-5">
@@ -42,6 +42,7 @@ export default {
   methods: {
     async logout() {
       this.$store.dispatch("logout");
+      this.$router.push("/");
     }
   }
 };

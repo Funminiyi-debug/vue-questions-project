@@ -65,8 +65,6 @@ const store = new Vuex.Store({
         const res = await axios.post(`${baseUrl}/logout`);
         localStorage.clear();
         this.commit("resetState");
-        alert("log out successful");
-        this.$route.push("/");
       } catch (error) {
         console.log(error);
       }
@@ -95,7 +93,7 @@ const store = new Vuex.Store({
       state.passages = payload;
     },
     isAdmin(state, payload) {
-      state.isAdmin = true;
+      state.isAdmin = payload;
     },
     addChoiceProgress(state, payload) {
       state.chooseProgress = payload;

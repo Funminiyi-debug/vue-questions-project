@@ -46,6 +46,11 @@
                 >
               </li>
             </ul>
+            <ul class="navbar-nav ml-auto mb-2 mb-lg-0 text-white">
+              <li class="nav-item cursor">
+                <span v-on:click="logout()">Logout</span>
+              </li>
+            </ul>
           </div>
         </div>
       </nav>
@@ -155,7 +160,16 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    logout() {
+      this.$store.commit("isAdmin", false);
+      this.$router.push("/admin-login");
     }
   }
 };
 </script>
+<style scoped>
+.cursor {
+  cursor: pointer;
+}
+</style>

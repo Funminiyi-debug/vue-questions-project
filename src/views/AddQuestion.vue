@@ -37,6 +37,11 @@
                 >
               </li>
             </ul>
+            <ul class="navbar-nav ml-auto mb-2 mb-lg-0 text-white">
+              <li class="nav-item cursor">
+                <span v-on:click="logout()">Logout</span>
+              </li>
+            </ul>
           </div>
         </div>
       </nav>
@@ -261,10 +266,11 @@ function arrangeData(data) {
     };
   });
 
+  const division = alternatives.length / questions.length;
   // share the alternatives amongst questions
   const dividedAlternatives = divideArraysIntoNEqualParts(
     alternatives,
-    questions.length
+    division
   );
 
   // user explanations
@@ -341,7 +347,11 @@ export default {
     handleDrop: handleDrop,
     arrangeData: arrangeData,
     submit: submit,
-    fetchSubjects: fetchSubjects
+    fetchSubjects: fetchSubjects,
+    logout() {
+      this.$store.commit("isAdmin", false);
+      this.$router.push("/admin-login");
+    }
   }
 };
 </script>
@@ -366,4 +376,8 @@ export default {
   margin-top: -2rem;
 }
 </style>
-<style scoped></style>
+<style scoped>
+.cursor {
+  cursor: pointer;
+}
+</style>

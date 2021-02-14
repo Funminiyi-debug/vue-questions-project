@@ -48,6 +48,11 @@
                       >
                     </li>
                   </ul>
+                  <ul class="navbar-nav ml-auto mb-2 mb-lg-0 text-white">
+                    <li class="nav-item cursor">
+                      <span v-on:click="logout()">Logout</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </nav>
@@ -125,6 +130,10 @@ export default {
           console.log(err);
           this.handleError(err);
         });
+    },
+    logout() {
+      this.$store.commit("isAdmin", false);
+      this.$router.push("/admin-login");
     }
   }
 };
@@ -133,6 +142,9 @@ export default {
 @import url("../assets/fonts/style.css");
 </style>
 <style scoped>
+.cursor {
+  cursor: pointer;
+}
 .btn {
   border-radius: 0 !important;
 }

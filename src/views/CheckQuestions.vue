@@ -36,6 +36,11 @@
               >
             </li>
           </ul>
+          <ul class="navbar-nav ml-auto mb-2 mb-lg-0 text-white">
+            <li class="nav-item cursor">
+              <span v-on:click="logout()">Logout</span>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
@@ -165,7 +170,16 @@ export default {
       await axios.get(`${baseUrl}/dashboard/subjects/metrics`).then(res => {
         this.subjects = [...res.data.response.percentageCorrectPerSubject];
       });
+    },
+    logout() {
+      this.$store.commit("isAdmin", false);
+      this.$router.push("/admin-login");
     }
   }
 };
 </script>
+<style scoped>
+.cursor {
+  cursor: pointer;
+}
+</style>
