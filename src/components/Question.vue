@@ -16,39 +16,47 @@
     >
       {{ section }}
     </div>
-    <div class="text-xs">
+    <div class="text-xs" v-if="inReview == true">
       <div class="flex-col flex">
         <i class="fas fa-question-circle"></i>
         <div>Solution</div>
       </div>
     </div>
-    <div class="pl-10">
+    <div class="pl-10 my-3">
       <form>
         <div
           v-for="(solution, index) in question.alternatives"
           :key="index"
-          class="flex pb-4 items-center"
+          class="flex pb-4 items-center text-left"
         >
           <!-- :id="solution.id" -->
           <input
             v-bind:disabled="inReview == true"
-            class="mr-2"
+            class="mr-2 item-start"
             type="radio"
             :value="solution.text"
             v-model="picked"
           />
+
           <!-- :checked="userAnswer" -->
           <label :for="solution.id"
-            ><span class="font-bold pr-2">{{ options[index] }}.</span>
-            <span class="font-semibold">{{ solution.text }}</span></label
+            ><span class="font-bold pr-2 ">{{ options[index] }}.</span>
+            <span class="font-semibold text-left">{{
+              solution.text
+            }}</span></label
           >
         </div>
         <!-- <input type="submit" value="submit" class="btn btn-danger" /> -->
-        <div class="text-info py-5" v-if="inReview == true">
-          You chose: {{ userAnswer }} <br />
-          Correct Answer: {{ correctAnswer }} <br />
-          <span class="text-justify">
-            Explanation: {{ question.answerExplanation }}
+        <div class="text-info py-5 text-left" v-if="inReview == true">
+          <span class="text-bold"> You chose:</span> {{ userAnswer }}
+          <br /><br />
+          <span class="text-bold"> Correct Answer:</span> {{ correctAnswer }}
+          <br /><br />
+          <span class="text-left">
+            <span class="text-justify text-info">
+              <span class="text-bold"> Explanation:</span>
+              {{ question.answerExplanation }}
+            </span>
           </span>
         </div>
       </form>
@@ -108,11 +116,19 @@ export default {
 </script>
 
 <style scoped>
+.text-left {
+  text-align: "center";
+}
 .logo-1 {
   height: 3rem;
   margin-bottom: 2rem !important;
 }
 .question-window {
   padding-top: 4rem;
+}
+
+.text-bold {
+  font-weight: bold;
+  margin-top: 1rem;
 }
 </style>

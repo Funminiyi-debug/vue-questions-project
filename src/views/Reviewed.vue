@@ -24,28 +24,30 @@
             <div class="flex items-center">
               <div><i class="far fa-clock"></i></div>
               <div class="px-2">Timer:</div>
-              <div class="hover:text-green-300 cursor-pointer">
+              <div
+                class="hover:text-green-300 cursor-pointer"
+                style="display: none"
+              >
                 <i class="fas fa-play"></i>
               </div>
               <div class="px-2">{{ userVisitedQuestions.timeTaken }}</div>
-              <i class="fas fa-toggle-off"></i>
             </div>
-            <div class="flex items-center justify-end">
-              <!-- <span class="pl-2"> 1 of 7 </span> -->
-            </div>
+            <!-- <div class="flex items-center justify-end">
+              <span class="pl-2"> 1 of 7 </span> 
+            </div> -->
           </div>
         </div>
         <div
           class="second-layer border-b text-xs text-white border-white flex items-center px-2 justify-between"
         >
           <div class="flex">
-            <div class="cursor-pointer">
+            <!-- <div class="cursor-pointer">
               <span class="underline">H</span>ighlight
             </div>
             <div class="pl-8 flex items-center">
               <i class="fas fa-pen"></i>
               <span class="pl-4 underline">Strikethrough</span>
-            </div>
+            </div> -->
           </div>
           <div class="flex justify-end items-center">
             <i class="fas fa-flag"></i>

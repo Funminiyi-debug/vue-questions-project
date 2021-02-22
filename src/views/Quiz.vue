@@ -18,7 +18,6 @@
                 <i class="fas fa-play"></i>
               </div>
               <div class="px-2">{{ counter }}</div>
-              <i class="fas fa-toggle-off"></i>
             </div>
             <div class="flex items-center justify-end">
               <!-- <span class="pl-2"> 1 of 7 </span> -->
@@ -29,7 +28,7 @@
           class="second-layer border-b text-xs text-white border-white flex items-center px-2 justify-between"
         >
           <div class="flex">
-            <div class="cursor-pointer">
+            <!-- <div class="cursor-pointer">
               <span v-on:click="highlightText"
                 ><span class="underline">H</span>ighlight</span
               >
@@ -39,8 +38,8 @@
               <span v-on:click="strikethroughText">
                 <span class="pl-4 underline">Strikethrough</span></span
               >
-            </div>
-            <div class="pl-8 flex items-center">
+            </div> -->
+            <div class="cursor-pointer">
               <span v-on:click="saveProgress">
                 <span class="pl-4 underline"
                   >Save Progress and Logout</span
