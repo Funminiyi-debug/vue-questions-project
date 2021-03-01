@@ -252,7 +252,7 @@ export default {
       }
     },
     end() {
-      alert("The QUIZ HAS ENDED");
+      this.$toasted.info("The QUIZ HAS ENDED");
     },
 
     nextPassage() {

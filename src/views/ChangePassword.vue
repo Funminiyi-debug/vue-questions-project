@@ -23,8 +23,26 @@
                   <input
                     type="password"
                     class="form-control"
-                    placeholder="Password"
-                    v-model="password"
+                    placeholder="Enter your old password"
+                    v-model="oldPassword"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="enter new password"
+                    v-model="newPassword"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="reenter new password"
+                    v-model="newPassword2"
                     required
                   />
                 </div>
@@ -35,7 +53,7 @@
                     class="btn bg-red-1 text-white"
                     :disabled="disableButton"
                   >
-                    Login
+                    Submit
                   </button>
                 </div>
 
@@ -61,7 +79,7 @@ import Navigation from "../components/Navigation.vue";
 import axios from "axios";
 import handleError from "../mock/handleError";
 export default {
-  name: "login-screen",
+  name: "change-password",
 
   components: {
     Navigation
@@ -69,7 +87,9 @@ export default {
   data() {
     return {
       email: "",
-      password: "",
+      oldPassword: "",
+      newPassword: "",
+      newPassword2: "",
       error: false,
       user: "",
       disableButton: false
@@ -82,19 +102,25 @@ export default {
     async handleSubmit(e) {
       e.preventDefault();
       this.disableButton = true;
+      if (this.newPassword != this.newPassword2) {
+        this.$toasted.error("Password does not match");
+        return;
+      }
       const newUser = {
         email: this.email,
-        password: this.password
+        oldPassword: this.oldPassword,
+        newPassword: this.newPassword,
+        newPassword2: this.newPassword2
       };
-      this.addUser(newUser);
+      this.changePassword(newUser);
 
       return;
     },
     // add user function
-    async addUser(user) {
+    async changePassword(user) {
       let success = false;
       await axios({
-        url: `${baseUrl}/login`,
+        url: `${baseUrl}/users/reset-password`,
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -102,15 +128,13 @@ export default {
         data: user
       })
         .then(res => {
-          this.user = res.data.user;
+          //   this.user = res.data.user;
           success = res.success;
           this.disableButton = false;
-          this.$emit("user", this.user);
-          return this.$router.push(`/choose-exam`);
+          return this.$router.push(`/`);
         })
         .catch(err => {
           this.disableButton = false;
-
           this.handleError(err);
         });
       return success;

@@ -12,6 +12,7 @@ import axios from "axios";
 import { baseUrl } from "./api/routes";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import dotenv from "dotenv";
+import Toasted from "vue-toasted";
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import "bootstrap/dist/css/bootstrap.css";
@@ -20,6 +21,10 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 Vue.use(BootstrapVue);
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin);
+Vue.use(Toasted, {
+  duration: 5000,
+  position: "top-right"
+});
 
 dotenv.config();
 const getDefaultState = () => {
@@ -40,7 +45,8 @@ const getDefaultState = () => {
     isAdmin: false,
     allSubjects: [],
     chooseProgress: false,
-    progress: {}
+    progress: {},
+    isLoggedIn: false
   };
 };
 Vue.use(Vuex);
@@ -57,7 +63,8 @@ const store = new Vuex.Store({
     isAdmin: state => state.isAdmin,
     allSubjects: state => state.allSubjects,
     chooseProgress: state => state.chooseProgress,
-    progress: state => state.progress
+    progress: state => state.progress,
+    isLoggedIn: state => state.isLoggedIn
   },
   actions: {
     async logout() {
@@ -76,6 +83,7 @@ const store = new Vuex.Store({
     },
     addUser(state, payload) {
       state.user = payload;
+      state.isLoggedIn = true;
     },
     addResults(state, payload) {
       state.results = payload;
@@ -95,6 +103,7 @@ const store = new Vuex.Store({
     isAdmin(state, payload) {
       state.isAdmin = payload;
     },
+
     addChoiceProgress(state, payload) {
       state.chooseProgress = payload;
     },

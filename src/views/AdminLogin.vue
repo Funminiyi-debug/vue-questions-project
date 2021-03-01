@@ -66,7 +66,7 @@ export default {
         this.$router.push("/admin");
         return;
       } else {
-        alert("Password or email is incorrect");
+        this.$toasted.error("Password or email is incorrect");
       }
     }
   }

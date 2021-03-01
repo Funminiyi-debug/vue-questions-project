@@ -65,4 +65,13 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.btn-danger {
+  background: #ec1e24 !important;
+  color: white;
+}
+.btn-danger:hover {
+  background: #991116 !important;
+  color: rgb(43, 36, 36);
+}
 </style>

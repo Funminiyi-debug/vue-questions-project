@@ -7,34 +7,37 @@
         </div>
       </div>
     </div>
-    <div class="container">
-      <h3 class="h3 font-weight-bold pt-5 text-justify ml-5">Results</h3>
+    <div class="container" v-if="metrics != ''">
+      <h3 class="styled">Results</h3>
       <!-- <hr class="hr" /> -->
-      <div class="container my-5 name">
+      <div class="container my-5 name ">
         <dl class="row">
           <dt class="col-3 text-justify">Name</dt>
-          <dd class="col-9">
+          <dd class="col-9 text-left">
             {{ user.name }}
           </dd>
           <dt class="col-3 text-justify">Email</dt>
-          <dd class="col-9">
+          <dd class="col-9 text-left">
             {{ user.email }}
           </dd>
           <dt class="col-3 text-justify">Average Time Taken</dt>
-          <dd class="col-9">
+          <dd class="col-9 text-left">
             {{ metrics.averageTimeTaken }}
           </dd>
           <dt class="col-3 text-justify">Average Percentage Correct</dt>
-          <dd class="col-9">
+          <dd class="col-9 text-left">
             {{ metrics.percentCorrect }}
           </dd>
         </dl>
       </div>
-      <div>
+      <div class="container">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
           <div class="table-container">
             <div class="table-responsive">
-              <table class="table custom-table m-0">
+              <table
+                class="table custom-table m-0"
+                v-if="user.subjects.length > 0"
+              >
                 <thead>
                   <th>S/N</th>
                   <th>Subject</th>
@@ -55,6 +58,7 @@
                   </tr>
                 </tbody>
               </table>
+              <div v-else>No Results yet</div>
             </div>
           </div>
         </div>
@@ -68,7 +72,7 @@ import { baseUrl } from "../api/routes";
 import axios from "axios";
 import handleError from "../mock/handleError";
 export default {
-  name: "studentresult",
+  name: "user-student-result",
   data() {
     return {
       user: {
@@ -82,21 +86,15 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.user = this.$store.getters.allUsers.find(
-        user => user._id == this.$route.params.id
-      );
-      // this.fetchUser(this.$route.params.id);
-      this.fetchUserMetrics(this.$route.params.id);
+      this.user = this.$store.getters.user;
+      const isLoggedIn = this.$store.getters.isLoggedIn;
+      if (!isLoggedIn) return this.$router.push("/");
+
+      //   this.fetchUser(this.$route.params.id);
+      this.fetchUserMetrics(this.user._id);
     });
   },
-  watch: {
-    $route(to, from) {
-      this.user = this.$store.getters.allUsers.find(
-        user => user._id == to.params.id
-      );
-      this.fetchUserMetrics(to.params.id);
-    }
-  },
+
   methods: {
     async fetchUser(id) {
       try {
@@ -104,9 +102,10 @@ export default {
           method: "GET",
           url: `${baseUrl}/users/${id}`
         });
+        this.user = res.data.user;
       } catch (error) {
         console.log(error);
-        handleError(error);
+        this.handleError(error);
       }
     },
     async fetchUserMetrics(userid) {
@@ -118,9 +117,10 @@ export default {
         this.metrics = res.data.response;
       } catch (error) {
         console.log(error);
-        handleError(error);
+        this.handleError(error);
       }
-    }
+    },
+    handleError: handleError
   }
 };
 </script>
@@ -129,6 +129,7 @@ export default {
 .name {
   margin-top: 3rem !important;
   margin-bottom: 3rem !important;
+  margin-left: 3rem;
 }
 
 .name dd,

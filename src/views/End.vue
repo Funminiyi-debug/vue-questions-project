@@ -18,8 +18,14 @@
 export default {
   name: "End",
   props: ["results"],
+  mounted() {
+    this.$nextTick(() => {
+      this.$toasted.info("Quiz Finished!");
+    });
+  },
   watch: {
     $route(to, from) {
+      this.$toasted.info("Quiz Finished!");
       this.username = to.params.username;
       this.subjectid = to.params.subjectid;
     }

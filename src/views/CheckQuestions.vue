@@ -119,6 +119,7 @@
 <script>
 import axios from "axios";
 import { baseUrl } from "../api/routes";
+import handleError from "../mock/handleError";
 export default {
   name: "check-questions",
   data() {
@@ -144,8 +145,10 @@ export default {
         this.subjects = [...res.data.subjects];
       } catch (error) {
         console.log(error);
+        this.handleError(error);
       }
     },
+    handleError: handleError,
     async addSubject() {
       try {
         const res = await axios.post(`${baseUrl}/subjects`, {
@@ -156,6 +159,7 @@ export default {
       } catch (error) {
         // alert("Server error");
         console.log(error);
+        this.handleError(error);
       }
     },
     async handleDelete(id) {

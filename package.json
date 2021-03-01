@@ -29,6 +29,7 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "vue": "^2.6.12",
     "vue-router": "^3.4.9",
+    "vue-toasted": "^1.1.28",
     "vuex": "^3.6.0",
     "vuex-persistedstate": "^4.0.0-beta.2",
     "xlsx": "^0.16.9"

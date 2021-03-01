@@ -14,6 +14,10 @@ import AdminLogin from "../views/AdminLogin";
 import Intro from "../views/Intro";
 import StudentsList from "../views/StudentsList";
 import ChooseExam from "../views/ChooseExam";
+import ChangePassword from "../views/ChangePassword";
+import StudentDashboard from "../views/StudentDashboard";
+import UserStudentResult from "../views/UserStudentResult";
+import ProgressList from "../views/ProgressList";
 Vue.use(VueRouter);
 
 const routes = [
@@ -68,6 +72,26 @@ const routes = [
     path: "/admin-login",
     name: "admin-login",
     component: AdminLogin
+  },
+  {
+    path: "/change-password",
+    name: "change-password",
+    component: ChangePassword
+  },
+  {
+    path: "/dashboard",
+    name: "dashboard",
+    component: StudentDashboard
+  },
+  {
+    path: "/student-result/:id",
+    name: "user-student-result",
+    component: UserStudentResult
+  },
+  {
+    path: "/progress-list",
+    name: "user-student-result",
+    component: ProgressList
   },
   {
     path: "/",

@@ -42,7 +42,7 @@
             <div class="cursor-pointer">
               <span v-on:click="saveProgress">
                 <span class="pl-4 underline"
-                  >Save Progress and Logout</span
+                  >save progress and return to dashboard</span
                 ></span
               >
             </div>
@@ -322,7 +322,7 @@ export default {
       }
     },
     end() {
-      alert("The QUIZ HAS ENDED");
+      this.toasted.info("The QUIZ HAS ENDED");
     },
 
     nextPassage() {
@@ -398,25 +398,25 @@ export default {
     },
     handleError(error) {
       if (error.status == 409) {
-        alert("Oops! User already exist");
+        this.$toasted.error("Oops! User already exist");
         return;
       }
       if (error.status == 500) {
-        alert("Server Error, please try again");
+        this.$toasted.error("Server Error, please try again");
         return;
       }
 
       if (error.status == 401) {
-        alert("You have to be logged in");
+        this.$toasted.error("You have to be logged in");
         this.$router.push("/login");
       }
 
       if (error.status == 400) {
-        alert("Ensure all fields are filled");
+        this.$toasted.error("Ensure all fields are filled");
         return;
       }
       if (error.status == 404) {
-        alert("not found");
+        this.$toasted.error("not found");
       }
     },
     getScore() {
@@ -531,7 +531,7 @@ export default {
           data: request
           // headers: { "Access-Control-Allow-Origin": "*" }
         });
-        this.$router.push("/");
+        this.$router.push("/dashboard");
       } catch (error) {
         this.$router.push("/");
         // console.log(error);

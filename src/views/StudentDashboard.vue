@@ -33,18 +33,18 @@
                 >
                   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                      <router-link to="/admin/add-question" class="nav-link"
-                        >Add Passage</router-link
+                      <router-link
+                        :to="{
+                          name: 'user-student-result',
+                          params: { id: user._id }
+                        }"
+                        class="nav-link"
+                        >Results</router-link
                       >
                     </li>
                     <li class="nav-item">
-                      <router-link to="/admin/students" class="nav-link"
-                        >Students</router-link
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <router-link to="/admin/check-questions" class="nav-link "
-                        >Subjects</router-link
+                      <router-link to="/progress-list" class="nav-link"
+                        >Progress</router-link
                       >
                     </li>
                   </ul>
@@ -70,7 +70,7 @@
                     ></i>
                   </div>
                   <div class="sale-num">
-                    <h3>{{ metrics.percentageCorrectOverall }}%</h3>
+                    <h3>{{ metrics.percentCorrect }}%</h3>
                     <p>Percentage Correct</p>
                   </div>
                 </div>
@@ -79,10 +79,7 @@
               <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                 <div class="info-stats4">
                   <div class="info-icon">
-                    <i
-                      class="fa fa-clock fa-lg text-red-1 "
-                      aria-hidden="true"
-                    ></i>
+                    <i class="icon-eye1"></i>
                   </div>
                   <div class="sale-num">
                     <h3>{{ metrics.averageTimeTaken }}</h3>
@@ -90,30 +87,56 @@
                   </div>
                 </div>
               </div>
+
               <router-link
-                to="/signup"
+                to="/choose-exam"
                 class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12"
               >
                 <div class="info-stats4">
-                  <div class="info-icon text-red-1">
-                    <i
-                      class="fa fa-user fa-lg text-red-1 "
-                      aria-hidden="true"
-                    ></i>
+                  <div class="info-icon">
+                    <i class="icon-eye1"></i>
                   </div>
                   <div class="sale-num">
-                    <h3 class="title">Create an Account</h3>
+                    <h3 class="title">Start Exam</h3>
                     <!-- <p>Average Time Taken</p> -->
                   </div>
                 </div>
               </router-link>
-
-              <!-- <div class="actions align-left">
-                <router-link to="/signup" class="btn btn-dark"
-                  >Create an Account</router-link
-                >
-              </div> -->
             </div>
+            <!-- <div v-if="user.subjectsSaved.length > 0">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-container">
+                  <div class="table-responsive">
+                    <table class="table custom-table m-0">
+                      <thead>
+                        <th>S/N</th>
+                        <th>Subject</th>
+                        <th>Action</th>
+                      </thead>
+                      <tbody>
+                        <tr
+                          v-for="(subject, index) in user.subjectsSaved"
+                          :key="index"
+                        >
+                          <td>{{ index + 1 }}</td>
+                          <td class="text-info">
+                            {{ subject.subject.name }}
+                          </td>
+                          <td>
+                            <button
+                              class="btn btn-sm btn-success text-center"
+                              @click="continueProgress(subject)"
+                            >
+                              Continue
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -130,36 +153,51 @@ export default {
   name: "Admin",
   mounted() {
     this.$nextTick(() => {
-      const isAdmin = this.$store.getters.isAdmin;
-      if (!isAdmin) {
-        this.$router.push("/admin-login");
+      const user = this.$store.getters.user;
+      const isLoggedIn = this.$store.getters.isLoggedIn;
+      if (!isLoggedIn || user._id == undefined) {
+        this.$router.push("/");
       }
-
-      this.fetchMetrics();
+      this.user = user;
+      this.fetchSubjects();
+      this.fetchUserMetrics(user._id);
     });
   },
   data() {
     return {
+      user: "",
       users: [],
-      metrics: ""
+      metrics: "",
+      subjects: []
     };
   },
   methods: {
     handleError: handleError,
-    async fetchMetrics() {
-      await axios
-        .get(`${baseUrl}/dashboard/metrics`)
-        .then(res => {
-          this.metrics = res.data.response;
-        })
-        .catch(err => {
-          console.log(err);
-          this.handleError(err);
+    async fetchUserMetrics(userid) {
+      try {
+        const res = await axios({
+          method: "GET",
+          url: `${baseUrl}/dashboard/users/metrics?userid=${userid}`
         });
+        this.metrics = res.data.response;
+      } catch (error) {
+        console.log(error);
+        this.handleError(error);
+      }
+    },
+    handleError: handleError,
+    async fetchSubjects() {
+      await axios
+        .get(`${baseUrl}/subjects`)
+        .then(res => {
+          this.subjects = [...res.data.subjects];
+        })
+        .catch(err => this.handleError(err));
     },
     logout() {
-      this.$store.commit("isAdmin", false);
-      this.$router.push("/admin-login");
+      this.$store.dispatch("logout");
+      this.$toasted.success("Logged out successfully!");
+      this.$router.push("/");
     }
   }
 };

@@ -1,24 +1,24 @@
 function handleError(error) {
   if (error.response.status == 409) {
-    alert("Oops! already exist");
+    this.$toasted.error("Oops! already exist");
     return;
   }
   if (error.response.status == 500) {
-    alert("Server Error, please try again");
+    this.$toasted.error("Server Error, please try again");
     return;
   }
 
   if (error.response.status == 401) {
-    alert("Password or username incorrect");
+    this.$toasted.error("Password or username incorrect");
     return;
   }
 
   if (error.response.status == 400) {
-    alert("Ensure all fields are filled");
+    this.$toasted.error("Ensure all fields are filled");
     return;
   }
   if (error.response.status == 404) {
-    alert("not found");
+    this.$toasted.error("not found");
   }
 }
 export default handleError;

@@ -8,6 +8,10 @@
       />
 
       Question {{ activeQuestion + 1 }}
+      <span v-if="inReview == true">
+        <span class="text-success" v-if="userAnswer == correctAnswer">✔</span>
+        <span class="text-danger" v-if="userAnswer != correctAnswer">❌</span>
+      </span>
     </div>
     <div
       class="pl-10 text-left mr-5"

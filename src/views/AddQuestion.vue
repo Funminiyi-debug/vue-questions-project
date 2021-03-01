@@ -296,10 +296,12 @@ async function submit() {
       passages: this.arrangedData
     });
 
-    alert("successfully created questions... you can check your database");
+    this.$toasted.success(
+      "successfully created questions... you can check your database"
+    );
   } catch (error) {
     console.log(error);
-    alert("ERROR from server");
+    this.$toasted.error("ERROR from server");
   }
 }
 

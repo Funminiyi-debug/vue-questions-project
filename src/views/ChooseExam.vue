@@ -66,6 +66,13 @@
                   </div>
                 </div>
                 <div class="actions mb-4">
+                  <router-link
+                    type="submit"
+                    class="btn btn-dark text-white"
+                    to="/dashboard"
+                  >
+                    Go to Dashboard
+                  </router-link>
                   <button
                     type="submit"
                     class="btn bg-red-1 text-white"

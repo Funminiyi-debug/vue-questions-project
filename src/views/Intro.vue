@@ -14,7 +14,16 @@
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="Full Name"
+                    placeholder="Surname"
+                    v-model="surname"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="First Name"
                     v-model="name"
                     required
                   />
@@ -40,14 +49,14 @@
 
                 <div class="actions mb-4">
                   <button type="submit" class="btn bg-red-1 text-white">
-                    Register and Start Quiz
+                    Register
                   </button>
                 </div>
                 <hr />
-                <div class="actions align-left">
+                <!-- <div class="actions align-left">
                   <span class="additional-link">Have an Account?</span>
                   <router-link to="/" class="btn btn-dark">Login</router-link>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -65,6 +74,7 @@ export default {
   name: "intro-screen",
   data() {
     return {
+      surname: "",
       name: "",
       email: "",
       password: "",
@@ -80,7 +90,7 @@ export default {
       this.disableButton = true;
 
       const newUser = {
-        name: this.name,
+        name: `${this.surname} ${this.name}`,
         email: this.email,
         password: this.password
       };
@@ -102,9 +112,9 @@ export default {
           this.user = res.data.user;
           success = res.success;
           this.disableButton = false;
-          this.$emit("user", this.user);
-          console.log(res.data.user);
-          return this.$router.push(`/choose-exam`);
+          this.$toasted.success("User created");
+          // this.$emit("user", this.user);
+          return this.$router.push(`/admin`);
         })
         .catch(err => {
           this.disableButton = false;

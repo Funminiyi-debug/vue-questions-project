@@ -125,7 +125,7 @@ export default {
       let title = titleElement.value;
 
       if (fileElement.files.length == 0 || title == "") {
-        alert("Please fill in all fields");
+        this.$toasted.error("Please fill in all fields");
         return;
       }
       let file = fileElement.files[0];
@@ -143,12 +143,12 @@ export default {
         });
 
         if (res.data.success == true) {
-          alert("Image Uploaded");
+          this.$toasted.success("Image Uploaded");
           title = "";
           // fileElement.files = [];
         }
       } catch (error) {
-        alert("Server error. Please try again");
+        this.$toasted.error("Server error. Please try again");
         console.log(error);
         title = "";
         // fileElement.files = [];
