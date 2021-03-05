@@ -9,6 +9,8 @@
               <thead>
                 <th>S/N</th>
                 <th>Subject</th>
+                <th>Questions Answered</th>
+                <th>Progress</th>
                 <th>Action</th>
               </thead>
               <tbody>
@@ -17,6 +19,8 @@
                   <td class="text-info">
                     {{ subject.subject.name }}
                   </td>
+                  <td>{{ subject.answers.length }}</td>
+                  <td>{{ subject.progress }}</td>
                   <td>
                     <button
                       class="btn btn-sm btn-success text-center"
@@ -44,8 +48,19 @@ export default {
   },
   data() {
     return {
-      user: ""
+      user: "",
+      chooseProgress: false,
+      subject: ""
     };
+  },
+  methods: {
+    continueProgress(subject) {
+      this.subject = subject.subject;
+      this.chooseProgress = true;
+      this.$store.commit("addChoiceProgress", this.chooseProgress);
+      this.$store.commit("addProgress", subject);
+      return this.$router.push(`Home/${this.subject._id}`);
+    }
   }
 };
 </script>
